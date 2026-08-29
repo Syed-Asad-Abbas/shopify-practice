@@ -1,0 +1,1 @@
+C:/Users/asad/Desktop/shopify/my-new-theme/AGENTS.md
