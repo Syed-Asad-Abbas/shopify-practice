@@ -34,23 +34,23 @@
         "product_1": {
           "type": "product",
           "settings": {
-            "product": "",
+            "product": "orange-wide-leg",
             "hotspot_x": 67,
-            "hotspot_y": 60
+            "hotspot_y": 63
           }
         },
         "product_2": {
           "type": "product",
           "settings": {
-            "product": "",
-            "hotspot_x": 85,
+            "product": "tailored-jacket",
+            "hotspot_x": 84,
             "hotspot_y": 55
           }
         },
         "product_3": {
           "type": "product",
           "settings": {
-            "product": "",
+            "product": "accordion-pleated-dress",
             "hotspot_x": 61,
             "hotspot_y": 23
           }
@@ -58,7 +58,7 @@
         "product_4": {
           "type": "product",
           "settings": {
-            "product": "",
+            "product": "green-trench-coat",
             "hotspot_x": 70,
             "hotspot_y": 22
           }
@@ -66,17 +66,17 @@
         "product_5": {
           "type": "product",
           "settings": {
-            "product": "",
-            "hotspot_x": 52,
+            "product": "tennis-blue-t-shirt",
+            "hotspot_x": 50,
             "hotspot_y": 23
           }
         },
         "product_6": {
           "type": "product",
           "settings": {
-            "product": "",
-            "hotspot_x": 73,
-            "hotspot_y": 37
+            "product": "long-sleeve-tennis-top",
+            "hotspot_x": 75,
+            "hotspot_y": 40
           }
         }
       },
