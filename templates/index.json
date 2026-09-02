@@ -1,5 +1,81 @@
 {
   "sections": {
+    "custom_banner": {
+      "type": "custom-banner",
+      "settings": {
+        "brand_text": "TISSO VISON",
+        "top_announcement": "Find the ideal gift for your loved ones.",
+        "top_btn_text": "CHOOSE GIFT",
+        "top_btn_link": "#products-grid",
+        "heading": "The Gift Guide",
+        "description": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.",
+        "cta_text": "SHOP NOW",
+        "cta_link": "#products-grid",
+        "sub_banner_text": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
+        "sub_banner_bg": "#F4F4F4",
+        "sub_banner_text_color": "#000000"
+      }
+    },
+    "custom_grid": {
+      "type": "custom-grid",
+      "blocks": {
+        "product_1": {
+          "type": "product",
+          "settings": {
+            "hotspot_x": 67,
+            "hotspot_y": 64
+          }
+        },
+        "product_2": {
+          "type": "product",
+          "settings": {
+            "hotspot_x": 60,
+            "hotspot_y": 63
+          }
+        },
+        "product_3": {
+          "type": "product",
+          "settings": {
+            "hotspot_x": 85,
+            "hotspot_y": 56
+          }
+        },
+        "product_4": {
+          "type": "product",
+          "settings": {
+            "hotspot_x": 75,
+            "hotspot_y": 79
+          }
+        },
+        "product_5": {
+          "type": "product",
+          "settings": {
+            "hotspot_x": 50,
+            "hotspot_y": 81
+          }
+        },
+        "product_6": {
+          "type": "product",
+          "settings": {
+            "hotspot_x": 89,
+            "hotspot_y": 84
+          }
+        }
+      },
+      "block_order": [
+        "product_1",
+        "product_2",
+        "product_3",
+        "product_4",
+        "product_5",
+        "product_6"
+      ],
+      "settings": {
+        "heading": "Tisso vison in the wild",
+        "bg_color": "#FFFFFF",
+        "text_color": "#000000"
+      }
+    },
     "image_banner": {
       "type": "image-banner",
       "blocks": {
@@ -38,38 +114,11 @@
         "stack_images_on_mobile": false,
         "show_text_below": false
       }
-    },
-    "featured_collection": {
-      "type": "featured-collection",
-      "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "padding_top": 44,
-        "padding_bottom": 36
-      }
     }
   },
   "order": [
-    "image_banner",
-    "featured_collection"
+    "custom_banner",
+    "custom_grid",
+    "image_banner"
   ]
 }
