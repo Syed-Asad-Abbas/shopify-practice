@@ -59,8 +59,8 @@
           "type": "product",
           "settings": {
             "product": "",
-            "hotspot_x": 75,
-            "hotspot_y": 79
+            "hotspot_x": 70,
+            "hotspot_y": 22
           }
         },
         "product_5": {
