@@ -43,8 +43,8 @@
           "type": "product",
           "settings": {
             "product": "",
-            "hotspot_x": 60,
-            "hotspot_y": 63
+            "hotspot_x": 85,
+            "hotspot_y": 55
           }
         },
         "product_3": {
