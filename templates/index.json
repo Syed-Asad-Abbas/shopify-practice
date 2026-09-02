@@ -67,16 +67,16 @@
           "type": "product",
           "settings": {
             "product": "",
-            "hotspot_x": 50,
-            "hotspot_y": 81
+            "hotspot_x": 52,
+            "hotspot_y": 23
           }
         },
         "product_6": {
           "type": "product",
           "settings": {
             "product": "",
-            "hotspot_x": 89,
-            "hotspot_y": 84
+            "hotspot_x": 73,
+            "hotspot_y": 37
           }
         }
       },
