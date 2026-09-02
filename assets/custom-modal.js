@@ -104,12 +104,20 @@
    * Attach all Vanilla JS event listeners
    */
   function bindEvents() {
-    // 1. Hotspot Quick View trigger buttons across the product grid
+    // 1. Quick View trigger on product cards across the product grid
     document.addEventListener('click', function (event) {
       const trigger = event.target.closest('.js-tisso-quickview-trigger');
       if (trigger) {
         event.preventDefault();
         openModal(trigger);
+      }
+    });
+
+    // 1b. Keyboard accessibility for product card trigger (Enter / Space)
+    document.addEventListener('keydown', function (event) {
+      if ((event.key === 'Enter' || event.key === ' ') && event.target.classList.contains('js-tisso-quickview-trigger')) {
+        event.preventDefault();
+        openModal(event.target);
       }
     });
 

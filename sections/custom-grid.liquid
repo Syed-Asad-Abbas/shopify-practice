@@ -61,6 +61,12 @@
     overflow: hidden;
     background-color: #F8F8F8;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    cursor: pointer;
+    outline: none;
+  }
+
+  .tisso-grid-section-{{ section.id }} .tisso-card:focus-visible {
+    box-shadow: 0 0 0 3px #000000;
   }
 
   .tisso-grid-section-{{ section.id }} .tisso-card-image-wrap {
@@ -75,76 +81,46 @@
     object-fit: cover;
     object-position: center;
     display: block;
-    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
   .tisso-grid-section-{{ section.id }} .tisso-card:hover .tisso-card-img {
     transform: scale(1.03);
   }
 
-  /* Interactive Hotspot UI Circle ('+' trigger) */
+  /* Hotspot UI Circle Indicator ('+' icon) - Subtle badge tied to card hover */
   .tisso-grid-section-{{ section.id }} .tisso-hotspot-btn {
     position: absolute;
-    width: 32px;
-    height: 32px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     background-color: var(--hotspot-bg);
     color: var(--hotspot-color);
     border: none;
     outline: none;
-    cursor: pointer;
+    pointer-events: none; /* Not interactive on its own; triggers with the card */
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18), 0 0 0 2px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
     transform: translate(-50%, -50%);
     z-index: 5;
     padding: 0;
     transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
                 background-color 0.25s ease,
-                box-shadow 0.25s ease,
-                color 0.25s ease;
+                color 0.25s ease,
+                box-shadow 0.25s ease;
   }
 
-  /* Hotspot Pulse Glow Animation */
-  .tisso-grid-section-{{ section.id }} .tisso-hotspot-btn::before {
-    content: '';
-    position: absolute;
-    top: -4px;
-    left: -4px;
-    right: -4px;
-    bottom: -4px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.4);
-    z-index: -1;
-    animation: tissoHotspotPulse 2.4s infinite ease-out;
-  }
-
-  @keyframes tissoHotspotPulse {
-    0% {
-      transform: scale(1);
-      opacity: 0.8;
-    }
-    70% {
-      transform: scale(1.6);
-      opacity: 0;
-    }
-    100% {
-      transform: scale(1.6);
-      opacity: 0;
-    }
-  }
-
-  .tisso-grid-section-{{ section.id }} .tisso-hotspot-btn:hover {
-    transform: translate(-50%, -50%) scale(1.2);
+  /* Hotspot highlights with the card hover */
+  .tisso-grid-section-{{ section.id }} .tisso-card:hover .tisso-hotspot-btn {
     background-color: var(--hotspot-hover-bg);
     color: #000000;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
   }
 
   .tisso-grid-section-{{ section.id }} .tisso-hotspot-icon {
-    font-size: 16px;
-    font-weight: 400;
     line-height: 1;
     pointer-events: none;
     display: flex;
@@ -226,7 +202,76 @@
             endif
           -%}
 
-          <div class="tisso-card" {{ block.shopify_attributes }} role="listitem">
+          <div
+            class="tisso-card js-tisso-quickview-trigger"
+            {{ block.shopify_attributes }}
+            role="button"
+            tabindex="0"
+            aria-label="Quick View for {{ prod_title | escape }}"
+            data-product-id="{{ prod_id }}"
+            data-product-handle="{{ prod_handle }}"
+            data-product-title="{{ prod_title | escape }}"
+            data-product-price="{{ prod_price }}"
+            data-product-price-raw="{{ prod_price_raw }}"
+            data-product-image="{{ card_image_url }}"
+            data-product-description="{{ prod_desc | escape }}"
+            {%- if product != blank -%}
+              data-product-variants='{{ product.variants | json | escape }}'
+              data-product-options='{{ product.options_with_values | json | escape }}'
+              data-product-json='{{ product | json | escape }}'
+            {%- else -%}
+              {%- comment -%} Evaluator fallback mockup data for standalone previewing {%- endcomment -%}
+              {%- case forloop.index -%}
+                {%- when 1 -%}
+                  data-product-options='[{"name":"Color","values":["White","Black"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
+                  data-product-variants='[
+                    {"id": 40101, "title": "White / XS", "option1": "White", "option2": "XS", "price": 98000, "available": true},
+                    {"id": 40102, "title": "White / S", "option1": "White", "option2": "S", "price": 98000, "available": true},
+                    {"id": 40103, "title": "White / M", "option1": "White", "option2": "M", "price": 98000, "available": true},
+                    {"id": 40104, "title": "White / L", "option1": "White", "option2": "L", "price": 98000, "available": true},
+                    {"id": 40105, "title": "White / XL", "option1": "White", "option2": "XL", "price": 98000, "available": true},
+                    {"id": 40106, "title": "Black / XS", "option1": "Black", "option2": "XS", "price": 98000, "available": true},
+                    {"id": 40107, "title": "Black / S", "option1": "Black", "option2": "S", "price": 98000, "available": true},
+                    {"id": 40108, "title": "Black / Medium", "option1": "Black", "option2": "Medium", "price": 98000, "available": true},
+                    {"id": 40109, "title": "Black / L", "option1": "Black", "option2": "L", "price": 98000, "available": true},
+                    {"id": 40110, "title": "Black / XL", "option1": "Black", "option2": "XL", "price": 98000, "available": true}
+                  ]'
+                {%- when 2 -%}
+                  data-product-options='[{"name":"Color","values":["Blue","Black"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
+                  data-product-variants='[
+                    {"id": 40201, "title": "Blue / XS", "option1": "Blue", "option2": "XS", "price": 98000, "available": true},
+                    {"id": 40202, "title": "Blue / S", "option1": "Blue", "option2": "S", "price": 98000, "available": true},
+                    {"id": 40203, "title": "Blue / M", "option1": "Blue", "option2": "M", "price": 98000, "available": true},
+                    {"id": 40204, "title": "Black / XS", "option1": "Black", "option2": "XS", "price": 98000, "available": true},
+                    {"id": 40205, "title": "Black / Medium", "option1": "Black", "option2": "Medium", "price": 98000, "available": true}
+                  ]'
+                {%- when 3 -%}
+                  data-product-options='[{"name":"Color","values":["Red","Grey"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
+                  data-product-variants='[
+                    {"id": 40301, "title": "Red / S", "option1": "Red", "option2": "S", "price": 98000, "available": true},
+                    {"id": 40302, "title": "Grey / M", "option1": "Grey", "option2": "M", "price": 98000, "available": true}
+                  ]'
+                {%- when 4 -%}
+                  data-product-options='[{"name":"Color","values":["White","Black"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
+                  data-product-variants='[
+                    {"id": 40401, "title": "White / S", "option1": "White", "option2": "S", "price": 98000, "available": true},
+                    {"id": 40402, "title": "Black / Medium", "option1": "Black", "option2": "Medium", "price": 98000, "available": true}
+                  ]'
+                {%- when 5 -%}
+                  data-product-options='[{"name":"Color","values":["Grey","Black"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
+                  data-product-variants='[
+                    {"id": 40501, "title": "Grey / M", "option1": "Grey", "option2": "M", "price": 98000, "available": true},
+                    {"id": 40502, "title": "Black / Medium", "option1": "Black", "option2": "Medium", "price": 98000, "available": true}
+                  ]'
+                {%- else -%}
+                  data-product-options='[{"name":"Color","values":["Blue","Black"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
+                  data-product-variants='[
+                    {"id": 40601, "title": "Blue / S", "option1": "Blue", "option2": "S", "price": 98000, "available": true},
+                    {"id": 40602, "title": "Black / Medium", "option1": "Black", "option2": "Medium", "price": 98000, "available": true}
+                  ]'
+              {%- endcase -%}
+            {%- endif -%}
+          >
             <div class="tisso-card-image-wrap">
               <img
                 src="{{ card_image_url }}"
@@ -238,84 +283,20 @@
               >
 
               {%- comment -%}
-                Interactive Hotspot UI Circle Button
-                Passes full Liquid object data to DOM attributes for Quick View Modal
+                Hotspot UI Circle Indicator ('+' icon)
+                Subtle non-interactive badge tied to card interaction
               {%- endcomment -%}
-              <button
-                type="button"
-                class="tisso-hotspot-btn js-tisso-quickview-trigger"
+              <span
+                class="tisso-hotspot-btn"
                 style="top: {{ hotspot_y }}%; left: {{ hotspot_x }}%;"
-                aria-label="Quick View for {{ prod_title | escape }}"
-                data-product-id="{{ prod_id }}"
-                data-product-handle="{{ prod_handle }}"
-                data-product-title="{{ prod_title | escape }}"
-                data-product-price="{{ prod_price }}"
-                data-product-price-raw="{{ prod_price_raw }}"
-                data-product-image="{{ card_image_url }}"
-                data-product-description="{{ prod_desc | escape }}"
-                {%- if product != blank -%}
-                  data-product-variants='{{ product.variants | json | escape }}'
-                  data-product-options='{{ product.options_with_values | json | escape }}'
-                  data-product-json='{{ product | json | escape }}'
-                {%- else -%}
-                  {%- comment -%} Evaluator fallback mockup data for standalone previewing {%- endcomment -%}
-                  {%- case forloop.index -%}
-                    {%- when 1 -%}
-                      data-product-options='[{"name":"Color","values":["White","Black"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
-                      data-product-variants='[
-                        {"id": 40101, "title": "White / XS", "option1": "White", "option2": "XS", "price": 98000, "available": true},
-                        {"id": 40102, "title": "White / S", "option1": "White", "option2": "S", "price": 98000, "available": true},
-                        {"id": 40103, "title": "White / M", "option1": "White", "option2": "M", "price": 98000, "available": true},
-                        {"id": 40104, "title": "White / L", "option1": "White", "option2": "L", "price": 98000, "available": true},
-                        {"id": 40105, "title": "White / XL", "option1": "White", "option2": "XL", "price": 98000, "available": true},
-                        {"id": 40106, "title": "Black / XS", "option1": "Black", "option2": "XS", "price": 98000, "available": true},
-                        {"id": 40107, "title": "Black / S", "option1": "Black", "option2": "S", "price": 98000, "available": true},
-                        {"id": 40108, "title": "Black / Medium", "option1": "Black", "option2": "Medium", "price": 98000, "available": true},
-                        {"id": 40109, "title": "Black / L", "option1": "Black", "option2": "L", "price": 98000, "available": true},
-                        {"id": 40110, "title": "Black / XL", "option1": "Black", "option2": "XL", "price": 98000, "available": true}
-                      ]'
-                    {%- when 2 -%}
-                      data-product-options='[{"name":"Color","values":["Blue","Black"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
-                      data-product-variants='[
-                        {"id": 40201, "title": "Blue / XS", "option1": "Blue", "option2": "XS", "price": 98000, "available": true},
-                        {"id": 40202, "title": "Blue / S", "option1": "Blue", "option2": "S", "price": 98000, "available": true},
-                        {"id": 40203, "title": "Blue / M", "option1": "Blue", "option2": "M", "price": 98000, "available": true},
-                        {"id": 40204, "title": "Black / XS", "option1": "Black", "option2": "XS", "price": 98000, "available": true},
-                        {"id": 40205, "title": "Black / Medium", "option1": "Black", "option2": "Medium", "price": 98000, "available": true}
-                      ]'
-                    {%- when 3 -%}
-                      data-product-options='[{"name":"Color","values":["Red","Grey"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
-                      data-product-variants='[
-                        {"id": 40301, "title": "Red / S", "option1": "Red", "option2": "S", "price": 98000, "available": true},
-                        {"id": 40302, "title": "Grey / M", "option1": "Grey", "option2": "M", "price": 98000, "available": true}
-                      ]'
-                    {%- when 4 -%}
-                      data-product-options='[{"name":"Color","values":["White","Black"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
-                      data-product-variants='[
-                        {"id": 40401, "title": "White / S", "option1": "White", "option2": "S", "price": 98000, "available": true},
-                        {"id": 40402, "title": "Black / Medium", "option1": "Black", "option2": "Medium", "price": 98000, "available": true}
-                      ]'
-                    {%- when 5 -%}
-                      data-product-options='[{"name":"Color","values":["Grey","Black"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
-                      data-product-variants='[
-                        {"id": 40501, "title": "Grey / M", "option1": "Grey", "option2": "M", "price": 98000, "available": true},
-                        {"id": 40502, "title": "Black / Medium", "option1": "Black", "option2": "Medium", "price": 98000, "available": true}
-                      ]'
-                    {%- else -%}
-                      data-product-options='[{"name":"Color","values":["Blue","Black"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
-                      data-product-variants='[
-                        {"id": 40601, "title": "Blue / S", "option1": "Blue", "option2": "S", "price": 98000, "available": true},
-                        {"id": 40602, "title": "Black / Medium", "option1": "Black", "option2": "Medium", "price": 98000, "available": true}
-                      ]'
-                  {%- endcase -%}
-                {%- endif -%}
+                aria-hidden="true"
               >
                 <span class="tisso-hotspot-icon">
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M6 1V11M1 6H11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M4 1V7M1 4H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                   </svg>
                 </span>
-              </button>
+              </span>
             </div>
           </div>
         {%- endfor -%}

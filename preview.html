@@ -297,6 +297,12 @@
       aspect-ratio: 1 / 1;
       overflow: hidden;
       background-color: #F8F8F8;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .tisso-card:focus-visible {
+      box-shadow: 0 0 0 3px #000000;
     }
 
     .tisso-card-img {
@@ -304,56 +310,51 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     .tisso-card:hover .tisso-card-img {
       transform: scale(1.03);
     }
 
+    /* Hotspot UI Circle Indicator ('+' icon) - Subtle badge tied to card hover */
     .tisso-hotspot-btn {
       position: absolute;
-      width: 32px;
-      height: 32px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
       background-color: #FFFFFF;
       color: #000000;
       border: none;
-      cursor: pointer;
+      outline: none;
+      pointer-events: none; /* Not interactive on its own; triggers with the card */
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18), 0 0 0 2px rgba(255, 255, 255, 0.5);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
       transform: translate(-50%, -50%);
       z-index: 5;
+      padding: 0;
       transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
                   background-color 0.25s ease,
+                  color 0.25s ease,
                   box-shadow 0.25s ease;
     }
 
-    .tisso-hotspot-btn::before {
-      content: '';
-      position: absolute;
-      top: -4px;
-      left: -4px;
-      right: -4px;
-      bottom: -4px;
-      border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0.4);
-      z-index: -1;
-      animation: tissoHotspotPulse 2.4s infinite ease-out;
-    }
-
-    @keyframes tissoHotspotPulse {
-      0% { transform: scale(1); opacity: 0.8; }
-      70% { transform: scale(1.6); opacity: 0; }
-      100% { transform: scale(1.6); opacity: 0; }
-    }
-
-    .tisso-hotspot-btn:hover {
-      transform: translate(-50%, -50%) scale(1.2);
+    /* Hotspot highlights with the card hover */
+    .tisso-card:hover .tisso-hotspot-btn {
       background-color: #FFF03F;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+      color: #000000;
+      transform: translate(-50%, -50%) scale(1.1);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    }
+
+    .tisso-hotspot-icon {
+      line-height: 1;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     /* --- DELIVERABLE 3: MODAL STYLING --- */
@@ -719,134 +720,176 @@
     <h2 class="tisso-grid-heading">Tisso vison in the wild</h2>
     <div class="tisso-product-grid">
       <!-- Card 1 -->
-      <div class="tisso-card">
+      <div
+        class="tisso-card js-tisso-quickview-trigger"
+        role="button"
+        tabindex="0"
+        aria-label="Quick View for Orange Wide Leg"
+        data-product-id="prod_1"
+        data-product-title="Orange Wide Leg"
+        data-product-price="980,00€"
+        data-product-price-raw="98000"
+        data-product-image="assets/tisso-product-1.png"
+        data-product-description="This one-piece swimsuit is crafted from jersey featuring an allover micro Monogram motif in relief."
+        data-product-options='[{"name":"Color","values":["White","Black"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
+        data-product-variants='[
+          {"id": 40101, "title": "White / XS", "option1": "White", "option2": "XS", "price": 98000, "available": true},
+          {"id": 40102, "title": "White / S", "option1": "White", "option2": "S", "price": 98000, "available": true},
+          {"id": 40103, "title": "White / M", "option1": "White", "option2": "M", "price": 98000, "available": true},
+          {"id": 40106, "title": "Black / XS", "option1": "Black", "option2": "XS", "price": 98000, "available": true},
+          {"id": 40108, "title": "Black / Medium", "option1": "Black", "option2": "Medium", "price": 98000, "available": true}
+        ]'
+      >
         <img src="assets/tisso-product-1.png" class="tisso-card-img" alt="Orange Wide Leg">
-        <button type="button" class="tisso-hotspot-btn js-tisso-quickview-trigger" style="top: 64%; left: 67%;"
-          data-product-id="prod_1"
-          data-product-title="Orange Wide Leg"
-          data-product-price="980,00€"
-          data-product-price-raw="98000"
-          data-product-image="assets/tisso-product-1.png"
-          data-product-description="This one-piece swimsuit is crafted from jersey featuring an allover micro Monogram motif in relief."
-          data-product-options='[{"name":"Color","values":["White","Black"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
-          data-product-variants='[
-            {"id": 40101, "title": "White / XS", "option1": "White", "option2": "XS", "price": 98000, "available": true},
-            {"id": 40102, "title": "White / S", "option1": "White", "option2": "S", "price": 98000, "available": true},
-            {"id": 40103, "title": "White / M", "option1": "White", "option2": "M", "price": 98000, "available": true},
-            {"id": 40106, "title": "Black / XS", "option1": "Black", "option2": "XS", "price": 98000, "available": true},
-            {"id": 40108, "title": "Black / Medium", "option1": "Black", "option2": "Medium", "price": 98000, "available": true}
-          ]'>
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6 1V11M1 6H11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
+        <span class="tisso-hotspot-btn" style="top: 64%; left: 67%;" aria-hidden="true">
+          <span class="tisso-hotspot-icon">
+            <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M4 1V7M1 4H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </span>
       </div>
 
       <!-- Card 2 -->
-      <div class="tisso-card">
+      <div
+        class="tisso-card js-tisso-quickview-trigger"
+        role="button"
+        tabindex="0"
+        aria-label="Quick View for Tailored Jacket"
+        data-product-id="prod_2"
+        data-product-title="Tailored Jacket"
+        data-product-price="980,00€"
+        data-product-price-raw="98000"
+        data-product-image="assets/tisso-product-2.png"
+        data-product-description="This one-piece swimsuit is crafted from jersey featuring an allover micro Monogram motif in relief."
+        data-product-options='[{"name":"Color","values":["Blue","Black"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
+        data-product-variants='[
+          {"id": 40201, "title": "Blue / XS", "option1": "Blue", "option2": "XS", "price": 98000, "available": true},
+          {"id": 40202, "title": "Blue / S", "option1": "Blue", "option2": "S", "price": 98000, "available": true},
+          {"id": 40203, "title": "Blue / M", "option1": "Blue", "option2": "M", "price": 98000, "available": true},
+          {"id": 40205, "title": "Black / Medium", "option1": "Black", "option2": "Medium", "price": 98000, "available": true}
+        ]'
+      >
         <img src="assets/tisso-product-2.png" class="tisso-card-img" alt="Tailored Jacket">
-        <button type="button" class="tisso-hotspot-btn js-tisso-quickview-trigger" style="top: 63%; left: 60%;"
-          data-product-id="prod_2"
-          data-product-title="Tailored Jacket"
-          data-product-price="980,00€"
-          data-product-price-raw="98000"
-          data-product-image="assets/tisso-product-2.png"
-          data-product-description="This one-piece swimsuit is crafted from jersey featuring an allover micro Monogram motif in relief."
-          data-product-options='[{"name":"Color","values":["Blue","Black"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
-          data-product-variants='[
-            {"id": 40201, "title": "Blue / XS", "option1": "Blue", "option2": "XS", "price": 98000, "available": true},
-            {"id": 40202, "title": "Blue / S", "option1": "Blue", "option2": "S", "price": 98000, "available": true},
-            {"id": 40203, "title": "Blue / M", "option1": "Blue", "option2": "M", "price": 98000, "available": true},
-            {"id": 40205, "title": "Black / Medium", "option1": "Black", "option2": "Medium", "price": 98000, "available": true}
-          ]'>
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6 1V11M1 6H11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
+        <span class="tisso-hotspot-btn" style="top: 63%; left: 60%;" aria-hidden="true">
+          <span class="tisso-hotspot-icon">
+            <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M4 1V7M1 4H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </span>
       </div>
 
       <!-- Card 3 -->
-      <div class="tisso-card">
+      <div
+        class="tisso-card js-tisso-quickview-trigger"
+        role="button"
+        tabindex="0"
+        aria-label="Quick View for Flannel Check Shirt"
+        data-product-id="prod_3"
+        data-product-title="Flannel Check Shirt"
+        data-product-price="980,00€"
+        data-product-price-raw="98000"
+        data-product-image="assets/tisso-product-3.png"
+        data-product-description="Classic check patterned long sleeve shirt crafted from premium cotton blend."
+        data-product-options='[{"name":"Color","values":["Red","Grey"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
+        data-product-variants='[
+          {"id": 40301, "title": "Red / S", "option1": "Red", "option2": "S", "price": 98000, "available": true},
+          {"id": 40302, "title": "Grey / M", "option1": "Grey", "option2": "M", "price": 98000, "available": true}
+        ]'
+      >
         <img src="assets/tisso-product-3.png" class="tisso-card-img" alt="Flannel Check Shirt">
-        <button type="button" class="tisso-hotspot-btn js-tisso-quickview-trigger" style="top: 56%; left: 85%;"
-          data-product-id="prod_3"
-          data-product-title="Flannel Check Shirt"
-          data-product-price="980,00€"
-          data-product-price-raw="98000"
-          data-product-image="assets/tisso-product-3.png"
-          data-product-description="Classic check patterned long sleeve shirt crafted from premium cotton blend."
-          data-product-options='[{"name":"Color","values":["Red","Grey"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
-          data-product-variants='[
-            {"id": 40301, "title": "Red / S", "option1": "Red", "option2": "S", "price": 98000, "available": true},
-            {"id": 40302, "title": "Grey / M", "option1": "Grey", "option2": "M", "price": 98000, "available": true}
-          ]'>
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6 1V11M1 6H11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
+        <span class="tisso-hotspot-btn" style="top: 56%; left: 85%;" aria-hidden="true">
+          <span class="tisso-hotspot-icon">
+            <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M4 1V7M1 4H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </span>
       </div>
 
       <!-- Card 4 -->
-      <div class="tisso-card">
+      <div
+        class="tisso-card js-tisso-quickview-trigger"
+        role="button"
+        tabindex="0"
+        aria-label="Quick View for Green Trench Coat"
+        data-product-id="prod_4"
+        data-product-title="Green Trench Coat"
+        data-product-price="980,00€"
+        data-product-price-raw="98000"
+        data-product-image="assets/tisso-product-4.png"
+        data-product-description="This one-piece swimsuit is crafted from jersey featuring an allover micro Monogram motif in relief."
+        data-product-options='[{"name":"Color","values":["White","Black"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
+        data-product-variants='[
+          {"id": 40401, "title": "White / S", "option1": "White", "option2": "S", "price": 98000, "available": true},
+          {"id": 40402, "title": "Black / Medium", "option1": "Black", "option2": "Medium", "price": 98000, "available": true}
+        ]'
+      >
         <img src="assets/tisso-product-4.png" class="tisso-card-img" alt="Green Trench Coat">
-        <button type="button" class="tisso-hotspot-btn js-tisso-quickview-trigger" style="top: 79%; left: 75%;"
-          data-product-id="prod_4"
-          data-product-title="Green Trench Coat"
-          data-product-price="980,00€"
-          data-product-price-raw="98000"
-          data-product-image="assets/tisso-product-4.png"
-          data-product-description="This one-piece swimsuit is crafted from jersey featuring an allover micro Monogram motif in relief."
-          data-product-options='[{"name":"Color","values":["White","Black"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
-          data-product-variants='[
-            {"id": 40401, "title": "White / S", "option1": "White", "option2": "S", "price": 98000, "available": true},
-            {"id": 40402, "title": "Black / Medium", "option1": "Black", "option2": "Medium", "price": 98000, "available": true}
-          ]'>
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6 1V11M1 6H11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
+        <span class="tisso-hotspot-btn" style="top: 79%; left: 75%;" aria-hidden="true">
+          <span class="tisso-hotspot-icon">
+            <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M4 1V7M1 4H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </span>
       </div>
 
       <!-- Card 5 -->
-      <div class="tisso-card">
+      <div
+        class="tisso-card js-tisso-quickview-trigger"
+        role="button"
+        tabindex="0"
+        aria-label="Quick View for Varsity Bomber"
+        data-product-id="prod_5"
+        data-product-title="Varsity Bomber"
+        data-product-price="980,00€"
+        data-product-price-raw="98000"
+        data-product-image="assets/tisso-product-5.png"
+        data-product-description="Athletic varsity jacket with contrast sleeves and signature monogram embroidery."
+        data-product-options='[{"name":"Color","values":["Grey","Black"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
+        data-product-variants='[
+          {"id": 40501, "title": "Grey / M", "option1": "Grey", "option2": "M", "price": 98000, "available": true},
+          {"id": 40502, "title": "Black / Medium", "option1": "Black", "option2": "Medium", "price": 98000, "available": true}
+        ]'
+      >
         <img src="assets/tisso-product-5.png" class="tisso-card-img" alt="Varsity Bomber">
-        <button type="button" class="tisso-hotspot-btn js-tisso-quickview-trigger" style="top: 81%; left: 50%;"
-          data-product-id="prod_5"
-          data-product-title="Varsity Bomber"
-          data-product-price="980,00€"
-          data-product-price-raw="98000"
-          data-product-image="assets/tisso-product-5.png"
-          data-product-description="Athletic varsity jacket with contrast sleeves and signature monogram embroidery."
-          data-product-options='[{"name":"Color","values":["Grey","Black"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
-          data-product-variants='[
-            {"id": 40501, "title": "Grey / M", "option1": "Grey", "option2": "M", "price": 98000, "available": true},
-            {"id": 40502, "title": "Black / Medium", "option1": "Black", "option2": "Medium", "price": 98000, "available": true}
-          ]'>
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6 1V11M1 6H11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
+        <span class="tisso-hotspot-btn" style="top: 81%; left: 50%;" aria-hidden="true">
+          <span class="tisso-hotspot-icon">
+            <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M4 1V7M1 4H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </span>
       </div>
 
       <!-- Card 6 -->
-      <div class="tisso-card">
+      <div
+        class="tisso-card js-tisso-quickview-trigger"
+        role="button"
+        tabindex="0"
+        aria-label="Quick View for Denim Street Jacket"
+        data-product-id="prod_6"
+        data-product-title="Denim Street Jacket"
+        data-product-price="980,00€"
+        data-product-price-raw="98000"
+        data-product-image="assets/tisso-product-6.png"
+        data-product-description="Vintage washed oversized denim jacket featuring metallic buttons and raw hem."
+        data-product-options='[{"name":"Color","values":["Blue","Black"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
+        data-product-variants='[
+          {"id": 40601, "title": "Blue / S", "option1": "Blue", "option2": "S", "price": 98000, "available": true},
+          {"id": 40602, "title": "Black / Medium", "option1": "Black", "option2": "Medium", "price": 98000, "available": true}
+        ]'
+      >
         <img src="assets/tisso-product-6.png" class="tisso-card-img" alt="Denim Street Jacket">
-        <button type="button" class="tisso-hotspot-btn js-tisso-quickview-trigger" style="top: 84%; left: 89%;"
-          data-product-id="prod_6"
-          data-product-title="Denim Street Jacket"
-          data-product-price="980,00€"
-          data-product-price-raw="98000"
-          data-product-image="assets/tisso-product-6.png"
-          data-product-description="Vintage washed oversized denim jacket featuring metallic buttons and raw hem."
-          data-product-options='[{"name":"Color","values":["Blue","Black"]},{"name":"Size","values":["XS","S","M","L","XL"]}]'
-          data-product-variants='[
-            {"id": 40601, "title": "Blue / S", "option1": "Blue", "option2": "S", "price": 98000, "available": true},
-            {"id": 40602, "title": "Black / Medium", "option1": "Black", "option2": "Medium", "price": 98000, "available": true}
-          ]'>
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6 1V11M1 6H11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
+        <span class="tisso-hotspot-btn" style="top: 84%; left: 89%;" aria-hidden="true">
+          <span class="tisso-hotspot-icon">
+            <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M4 1V7M1 4H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </span>
       </div>
     </div>
   </section>
