@@ -1,9 +1,19 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "custom_banner": {
       "type": "custom-banner",
       "settings": {
         "brand_text": "TISSO VISON",
+        "brand_link": "",
         "top_announcement": "Find the ideal gift for your loved ones.",
         "top_btn_text": "CHOOSE GIFT",
         "top_btn_link": "#products-grid",
@@ -12,8 +22,10 @@
         "cta_text": "SHOP NOW",
         "cta_link": "#products-grid",
         "sub_banner_text": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
-        "sub_banner_bg": "#F4F4F4",
-        "sub_banner_text_color": "#000000"
+        "sub_banner_bg": "#f4f4f4",
+        "sub_banner_text_color": "#000000",
+        "banner_bg_color": "#ffffff",
+        "banner_text_color": "#000000"
       }
     },
     "custom_grid": {
@@ -22,6 +34,7 @@
         "product_1": {
           "type": "product",
           "settings": {
+            "product": "",
             "hotspot_x": 67,
             "hotspot_y": 64
           }
@@ -29,6 +42,7 @@
         "product_2": {
           "type": "product",
           "settings": {
+            "product": "",
             "hotspot_x": 60,
             "hotspot_y": 63
           }
@@ -36,6 +50,7 @@
         "product_3": {
           "type": "product",
           "settings": {
+            "product": "",
             "hotspot_x": 85,
             "hotspot_y": 56
           }
@@ -43,6 +58,7 @@
         "product_4": {
           "type": "product",
           "settings": {
+            "product": "",
             "hotspot_x": 75,
             "hotspot_y": 79
           }
@@ -50,6 +66,7 @@
         "product_5": {
           "type": "product",
           "settings": {
+            "product": "",
             "hotspot_x": 50,
             "hotspot_y": 81
           }
@@ -57,6 +74,7 @@
         "product_6": {
           "type": "product",
           "settings": {
+            "product": "",
             "hotspot_x": 89,
             "hotspot_y": 84
           }
@@ -72,53 +90,13 @@
       ],
       "settings": {
         "heading": "Tisso vison in the wild",
-        "bg_color": "#FFFFFF",
+        "bg_color": "#ffffff",
         "text_color": "#000000"
-      }
-    },
-    "image_banner": {
-      "type": "image-banner",
-      "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
-          }
-        },
-        "button": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading",
-        "button"
-      ],
-      "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
       }
     }
   },
   "order": [
     "custom_banner",
-    "custom_grid",
-    "image_banner"
+    "custom_grid"
   ]
 }
