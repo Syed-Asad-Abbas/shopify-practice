@@ -60,7 +60,13 @@
 
                 <div class="totals">
                   <h2 class="totals__total">{{ 'sections.cart.estimated_total' | t }}</h2>
-                  <p class="totals__total-value">{{ cart.total_price | money_with_currency }}</p>
+                  {%- assign visual_total = cart.total_price -%}
+                  {%- for item in cart.items -%}
+                    {%- if item.variant_id == 45763310190701 -%}
+                      {%- assign visual_total = visual_total | minus: item.final_line_price -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                  <p class="totals__total-value">{{ visual_total | money_with_currency }}</p>
                 </div>
 
                 <small class="tax-note caption-large rte">

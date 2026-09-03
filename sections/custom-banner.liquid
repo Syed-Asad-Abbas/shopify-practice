@@ -24,6 +24,8 @@
 -%}
 
 {%- style -%}
+  @import url('https://fonts.googleapis.com/css2?family=Jost:wght@400&display=swap');
+
   /* --- CUSTOM BANNER SCOPED STYLING --- */
   .tisso-banner-section-{{ section.id }} {
     --banner-bg-color: {{ section.settings.banner_bg_color | default: '#FFFFFF' }};
@@ -54,7 +56,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 54px;
+    height: 64px;
     padding: 0 40px;
     border-bottom: 1px solid var(--border-color);
     background-color: #FFFFFF;
@@ -74,31 +76,54 @@
   }
 
   .tisso-banner-section-{{ section.id }} .tisso-announcement-text {
-    font-size: 14px;
+    font-family: 'Jost', sans-serif;
+    font-size: 16px;
     font-weight: 400;
-    color: #111111;
-    letter-spacing: 0.3px;
+    color: #000000;
+    line-height: 13.42px;
+    letter-spacing: 0px;
     text-align: center;
     margin: 0;
+    width: 260px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .tisso-banner-section-{{ section.id }} .tisso-top-action-btn {
     position: relative;
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    justify-content: flex-start;
+    width: 207px;
+    height: 44px;
+    padding-left: 41px;
+    box-sizing: border-box;
     background-color: var(--accent-yellow);
     color: #000000;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 1px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20.48px;
+    letter-spacing: 0px;
     text-transform: uppercase;
-    padding: 10px 22px;
     text-decoration: none;
-    border: 1px solid #000000;
+    border: none;
     cursor: pointer;
     overflow: hidden;
     transition: color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  }
+
+  .tisso-banner-section-{{ section.id }} .tisso-top-action-btn span {
+    width: 102px;
+    height: 21px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    transition: color 0.3s ease, transform 0.3s ease;
   }
 
   .tisso-banner-section-{{ section.id }} .tisso-top-action-btn::before {
@@ -115,11 +140,34 @@
     z-index: 0;
   }
 
-  .tisso-banner-section-{{ section.id }} .tisso-top-action-btn span,
-  .tisso-banner-section-{{ section.id }} .tisso-top-action-btn svg {
-    position: relative;
-    z-index: 1;
-    transition: color 0.3s ease, transform 0.3s ease;
+  .tisso-banner-section-{{ section.id }} .tisso-btn-line {
+    width: 24px !important;
+    height: 1.5px !important;
+    background-color: #000000 !important;
+    position: absolute !important;
+    top: 50% !important;
+    margin-top: -0.75px !important;
+    left: 161px !important;
+    z-index: 10 !important;
+    display: block !important;
+    visibility: visible !important;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+
+  .tisso-banner-section-{{ section.id }} .tisso-btn-line::after {
+    content: "" !important;
+    position: absolute !important;
+    right: 0px !important;
+    top: -3.5px !important;
+    width: 8px !important;
+    height: 8px !important;
+    border-top: 1.5px solid #000000 !important;
+    border-right: 1.5px solid #000000 !important;
+    transform: rotate(45deg) !important;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box !important;
+    display: block !important;
+    visibility: visible !important;
   }
 
   .tisso-banner-section-{{ section.id }} .tisso-top-action-btn:hover {
@@ -132,15 +180,21 @@
     transform: scaleX(1);
   }
 
-  .tisso-banner-section-{{ section.id }} .tisso-top-action-btn:hover svg {
+  .tisso-banner-section-{{ section.id }} .tisso-top-action-btn:hover .tisso-btn-line {
     transform: translateX(4px);
+    background-color: #FFFFFF !important;
+  }
+
+  .tisso-banner-section-{{ section.id }} .tisso-top-action-btn:hover .tisso-btn-line::after {
+    border-top-color: #FFFFFF !important;
+    border-right-color: #FFFFFF !important;
   }
 
   /* 2. CONTAINER 1: TOP ILLUSTRATION CONTAINER (1440 x 390 - 1st image.png) */
   .tisso-banner-section-{{ section.id }} .tisso-hero-top-container {
     width: 100%;
     max-width: 1440px;
-    aspect-ratio: 1440 / 390;
+    height: 390px;
     position: relative;
     overflow: hidden;
     background-color: #FFFFFF;
@@ -150,8 +204,9 @@
   .tisso-banner-section-{{ section.id }} .tisso-hero-top-img {
     width: 100%;
     height: 100%;
-    object-fit: fill;
+    object-fit: cover;
     display: block;
+    opacity: 1;
   }
 
   /* 3. CONTAINER 2: BOTTOM SPLIT CONTAINER (550px Left Text + 890x402 Right Illustration) */
@@ -163,61 +218,86 @@
     background-color: #FFFFFF;
     box-sizing: border-box;
     align-items: stretch;
+    margin-top: -12px; /* Pull up to exact top: 442px */
+    position: relative;
+    z-index: 2;
   }
 
   /* Left Column: Text & CTA Content (550px wide) */
   .tisso-banner-section-{{ section.id }} .tisso-hero-content-col {
-    flex: 0 0 calc(100% - 890px);
-    min-width: 460px;
-    max-width: 550px;
-    padding: 20px 40px 40px 60px;
+    flex: 0 0 550px;
+    width: 550px;
+    padding: 47px 0 0 67px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-start;
     z-index: 2;
   }
 
   .tisso-banner-section-{{ section.id }} .tisso-hero-heading {
-    font-family: var(--font-body);
-    font-size: 52px;
-    font-weight: 700;
-    line-height: 1.1;
+    font-family: 'Jost', sans-serif;
+    font-weight: bold;
+    font-size: 70px;
+    line-height: 1;
     color: #000000;
-    margin: 0 0 24px 0;
-    letter-spacing: -0.5px;
+    margin: 0;
+    letter-spacing: 0px;
+    width: 459px;
+    height: 70px;
+    display: flex;
+    align-items: center;
   }
 
   .tisso-banner-section-{{ section.id }} .tisso-hero-description {
-    font-size: 15px;
-    line-height: 1.6;
-    color: #222222;
-    margin: 0 0 36px 0;
-    font-weight: 400;
-    max-width: 440px;
+    font-family: 'Jost';
+    font-size: 20px;
+    font-weight: 200;
+    line-height: 1.4;
+    color: #000000;
+    margin: 50px 0 0 0;
+    width: 483px;
+    height: 84px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0px;
   }
 
   /* CTA Button - scaleX left-to-right sliding wipe animation */
   .tisso-banner-section-{{ section.id }} .tisso-hero-cta-btn {
     position: relative;
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
     background-color: #000000;
     color: #FFFFFF;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    padding: 15px 36px;
+    width: 220px;
+    height: 50px;
+    padding: 0;
+    margin-top: 50px;
     text-decoration: none;
-    border: 1px solid #000000;
+    border: none;
     cursor: pointer;
     box-sizing: border-box;
     overflow: hidden;
     transition: color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  }
+
+  .tisso-banner-section-{{ section.id }} .tisso-hero-cta-btn .tisso-cta-text {
+    font-family: 'Jost';
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20.48px;
+    text-transform: uppercase;
+    text-align: center;
+    width: 92px;
+    height: 21px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 55.07px;
+    top: 14.26px;
+    z-index: 2;
   }
 
   .tisso-banner-section-{{ section.id }} .tisso-hero-cta-btn::before {
@@ -234,8 +314,7 @@
     z-index: 0;
   }
 
-  .tisso-banner-section-{{ section.id }} .tisso-hero-cta-btn span,
-  .tisso-banner-section-{{ section.id }} .tisso-hero-cta-btn .tisso-btn-arrow {
+  .tisso-banner-section-{{ section.id }} .tisso-hero-cta-btn span {
     position: relative;
     z-index: 1;
     transition: color 0.3s ease;
@@ -251,13 +330,43 @@
     transform: scaleX(1);
   }
 
-  .tisso-banner-section-{{ section.id }} .tisso-hero-cta-btn .tisso-btn-arrow {
-    display: inline-block;
-    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  .tisso-banner-section-{{ section.id }} .tisso-hero-btn-line {
+    width: 25.5px !important;
+    height: 1.5px !important;
+    background-color: #FFFFFF !important;
+    position: absolute !important;
+    top: 24.49px !important;
+    left: 171.11px !important;
+    z-index: 10 !important;
+    display: block !important;
+    visibility: visible !important;
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
   }
 
-  .tisso-banner-section-{{ section.id }} .tisso-hero-cta-btn:hover .tisso-btn-arrow {
+  .tisso-banner-section-{{ section.id }} .tisso-hero-btn-line::after {
+    content: "" !important;
+    position: absolute !important;
+    right: 0px !important;
+    top: -3.5px !important;
+    width: 8px !important;
+    height: 8px !important;
+    border-top: 1.5px solid #FFFFFF !important;
+    border-right: 1.5px solid #FFFFFF !important;
+    transform: rotate(45deg) !important;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box !important;
+    display: block !important;
+    visibility: visible !important;
+  }
+
+  .tisso-banner-section-{{ section.id }} .tisso-hero-cta-btn:hover .tisso-hero-btn-line {
     transform: translateX(6px);
+    background-color: #000000 !important;
+  }
+
+  .tisso-banner-section-{{ section.id }} .tisso-hero-cta-btn:hover .tisso-hero-btn-line::after {
+    border-top-color: #000000 !important;
+    border-right-color: #000000 !important;
   }
 
   /* Right Column: 890px x 402px Container (2nd image.png) */
@@ -273,27 +382,42 @@
   .tisso-banner-section-{{ section.id }} .tisso-hero-right-img {
     width: 100%;
     height: 100%;
-    object-fit: fill;
+    object-fit: cover;
     display: block;
+    opacity: 1;
   }
 
   /* 4. SUB-BANNER ANNOUNCEMENT BAR */
   .tisso-banner-section-{{ section.id }} .tisso-sub-banner {
     width: 100%;
-    background-color: {{ section.settings.sub_banner_bg | default: '#F4F4F4' }};
+    max-width: 1440px;
+    height: 34px;
+    margin: 0 auto;
+    background-color: {{ section.settings.sub_banner_bg | default: '#F5F5F5' }};
     color: {{ section.settings.sub_banner_text_color | default: '#000000' }};
-    padding: 13px 20px;
-    text-align: center;
+    padding: 10px 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 375px;
     box-sizing: border-box;
     border-top: 1px solid #EAEAEA;
   }
 
   .tisso-banner-section-{{ section.id }} .tisso-sub-banner-text {
-    font-size: 11.5px;
-    font-weight: 600;
-    letter-spacing: 1.8px;
-    text-transform: uppercase;
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 13.42px;
+    letter-spacing: 0px;
+    text-align: center;
+    color: #000000;
+    width: 451px;
+    height: 14px;
     margin: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 {%- endstyle -%}
 
@@ -306,7 +430,7 @@
           {{ section.settings.brand_text | default: 'TISSO VISON' }}
         </a>
       </div>
-      
+
       <div class="tisso-top-center">
         <p class="tisso-announcement-text">
           {{ section.settings.top_announcement | default: 'Find the ideal gift for your loved ones.' }}
@@ -316,9 +440,7 @@
       <div class="tisso-top-right">
         <a href="{{ section.settings.top_btn_link | default: '#products-grid' }}" class="tisso-top-action-btn">
           <span>{{ section.settings.top_btn_text | default: 'CHOOSE GIFT' }}</span>
-          <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M12 1L17 6M17 6L12 11M17 6H1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+          <span class="tisso-btn-line" aria-hidden="true"></span>
         </a>
       </div>
     </header>
@@ -342,18 +464,17 @@
         <h1 class="tisso-hero-heading">
           {{ section.settings.heading | default: 'The Gift Guide' }}
         </h1>
-        
+
         <div class="tisso-hero-description">
-          {{ section.settings.description | default: 'Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.' }}
+          {{
+            section.settings.description
+            | default: 'Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.'
+          }}
         </div>
 
         <a href="{{ section.settings.cta_link | default: '#products-grid' }}" class="tisso-hero-cta-btn">
-          <span>{{ section.settings.cta_text | default: 'SHOP NOW' }}</span>
-          <span class="tisso-btn-arrow">
-            <svg width="22" height="12" viewBox="0 0 22 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M16 1L21 6M21 6L16 11M21 6H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
+          <span class="tisso-cta-text">{{ section.settings.cta_text | default: 'SHOP NOW' }}</span>
+          <span class="tisso-hero-btn-line" aria-hidden="true"></span>
         </a>
       </div>
 

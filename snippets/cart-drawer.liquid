@@ -163,7 +163,11 @@
                             -%}
                           </div>
 
-                          {%- if item.original_price != item.final_price -%}
+                          {%- if item.variant_id == 45763310190701 -%}
+                            <div class="product-option">
+                              Free
+                            </div>
+                          {%- elsif item.original_price != item.final_price -%}
                             <div class="cart-item__discounted-prices">
                               <span class="visually-hidden">
                                 {{ 'products.product.price.regular_price' | t }}
@@ -245,7 +249,11 @@
                         <td class="cart-item__totals right" role="cell" headers="CartDrawer-ColumnTotal">
                           {%- render 'loading-spinner' -%}
                           <div class="cart-item__price-wrapper">
-                            {%- if item.original_line_price != item.final_line_price -%}
+                            {%- if item.variant_id == 45763310190701 -%}
+                              <span class="price price--end">
+                                Free
+                              </span>
+                            {%- elsif item.original_line_price != item.final_line_price -%}
                               <div class="cart-item__discounted-prices">
                                 <span class="visually-hidden">
                                   {{ 'products.product.price.regular_price' | t }}
@@ -528,7 +536,13 @@
 
           <div class="totals" role="status">
             <h2 class="totals__total">{{ 'sections.cart.estimated_total' | t }}</h2>
-            <p class="totals__total-value">{{ cart.total_price | money_with_currency }}</p>
+            {%- assign visual_total = cart.total_price -%}
+            {%- for item in cart.items -%}
+              {%- if item.variant_id == 45763310190701 -%}
+                {%- assign visual_total = visual_total | minus: item.final_line_price -%}
+              {%- endif -%}
+            {%- endfor -%}
+            <p class="totals__total-value">{{ visual_total | money_with_currency }}</p>
           </div>
 
           <small class="tax-note caption-large rte">

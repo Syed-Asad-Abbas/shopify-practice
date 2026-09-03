@@ -25,7 +25,7 @@
    * Target variant ID for the secondary "Soft Winter Jacket" promotional item.
    * Dynamically fetched to ensure it always works in live deployment.
    */
-  let JACKET_VARIANT_ID = 'PLACEHOLDER_ID';
+  let JACKET_VARIANT_ID = 45763310190701;
 
   // Map common color names to precise hex codes for left vertical swatches
   const COLOR_SWATCH_MAP = {
@@ -53,6 +53,7 @@
     Color: '',
     Size: ''
   };
+  let isSyncingBundle = false;
 
   /**
    * --------------------------------------------------------------------------
@@ -178,7 +179,7 @@
     const price = dataset.productPrice || '0,00€';
     const description = dataset.productDescription || '';
     const imageSrc = dataset.productImage || '';
-    
+
     // Parse variants and options JSON
     try {
       currentVariants = dataset.productVariants ? JSON.parse(dataset.productVariants) : [];
@@ -224,7 +225,7 @@
     modalBackdrop.classList.add('is-open');
     modalBackdrop.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden'; // Prevent background page scroll
-    
+
     // Move focus inside modal
     if (modalCloseBtn) modalCloseBtn.focus();
   }
@@ -237,7 +238,7 @@
     modalBackdrop.classList.remove('is-open');
     modalBackdrop.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
-    
+
     // Return focus to the trigger element
     if (lastFocusedElement) {
       lastFocusedElement.focus();
@@ -457,9 +458,12 @@
      * 4. Appends bundle item to the Shopify multi-item /cart/add.js payload.
      * ========================================================================
      */
-    const isColorBlack = (selectedOptionValues.Color || '').trim().toLowerCase() === 'black';
-    const isSizeMedium = ['medium', 'm'].includes((selectedOptionValues.Size || '').trim().toLowerCase());
+    const isColorBlack = (selectedOptionValues.Color).trim().toLowerCase() === 'black';
+    const isSizeMedium = (selectedOptionValues.Size).trim().toLowerCase() === 'm';
     const shouldBundleSoftWinterJacket = isColorBlack && isSizeMedium;
+    console.log("isColorBlack", isColorBlack);
+    console.log("isSizeMedium", isSizeMedium);
+    console.log("shouldBundleSoftWinterJacket", shouldBundleSoftWinterJacket);
 
     // Dynamically fetch the real Variant ID for Soft Winter Jacket if not already fetched
     if (shouldBundleSoftWinterJacket && JACKET_VARIANT_ID === 'PLACEHOLDER_ID') {
@@ -490,7 +494,7 @@
     // 2. Conditional Secondary Bundle Item ("Soft Winter Jacket")
     if (shouldBundleSoftWinterJacket) {
       console.log('Tisso Bundle: "Black" + "Medium" detected! Auto-bundling Soft Winter Jacket (Variant ID: ' + JACKET_VARIANT_ID + ')');
-      
+
       // If in production/evaluator mode with a real numeric ID or placeholder
       itemsPayload.push({
         id: JACKET_VARIANT_ID,
@@ -525,29 +529,30 @@
       if (response.ok) {
         // Success Handler
         handleAddToCartSuccess(shouldBundleSoftWinterJacket, responseData);
+
       } else {
         // Handling for placeholder ID or store-specific validation in demo environments
         if (shouldBundleSoftWinterJacket && JACKET_VARIANT_ID === 'PLACEHOLDER_ID') {
           console.warn('Tisso Note: Placeholder ID used for demo bundle. Retrying with primary item for test compatibility.');
-          
+
           // Fallback gracefully to add primary item in demo mode without throwing
           const fallbackRes = await fetch('/cart/add.js', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
             body: JSON.stringify({ items: [{ id: primaryVariantId, quantity: 1 }] })
           });
-          
+
           if (fallbackRes.ok) {
             handleAddToCartSuccess(true, await fallbackRes.json());
             return;
           }
         }
-        
+
         throw new Error(responseData.description || responseData.message || 'Error adding item to cart.');
       }
     } catch (error) {
       console.error('Tisso Cart Error:', error);
-      
+
       // In local/mock preview without active Shopify backend session, show successful mock feedback
       if (window.location.protocol === 'file:' || error.message.includes('Failed to fetch') || error.message.includes('404') || error.message.includes('Cannot find variant')) {
         handleAddToCartSuccess(shouldBundleSoftWinterJacket, { mockSuccess: true });
@@ -589,7 +594,7 @@
         .catch(console.warn);
     }
 
-    // Close modal after brief feedback and redirect to cart page
+    // Close modal after brief feedback
     setTimeout(() => {
       closeModal();
       window.location.href = window.Shopify && window.Shopify.routes && window.Shopify.routes.root ? window.Shopify.routes.root + 'cart' : '/cart';
@@ -627,9 +632,150 @@
 
   // Initialize script when DOM is ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', () => {
+      init();
+      initCartSync();
+    });
   } else {
     init();
+    initCartSync();
+  }
+
+  /**
+   * --------------------------------------------------------------------------
+   * AUTOMATIC CART SYNCHRONIZATION LOGIC
+   * --------------------------------------------------------------------------
+   */
+  async function syncTissoBundleCart() {
+    if (isSyncingBundle) return;
+    isSyncingBundle = true;
+
+    try {
+      const res = await fetch('/cart.js');
+      const cartData = await res.json();
+      
+      let hasQualifyingItem = false;
+      let giftItems = [];
+
+      cartData.items.forEach(item => {
+        if (item.variant_id === JACKET_VARIANT_ID) {
+          giftItems.push(item);
+          return; // Skip evaluating the gift itself as a qualifying item
+        }
+
+        let isBlack = false;
+        let isMedium = false;
+
+        if (item.options_with_values && item.options_with_values.length > 0) {
+          item.options_with_values.forEach(opt => {
+            const name = opt.name.toLowerCase();
+            const val = opt.value.toLowerCase();
+            if (name.includes('color') || name.includes('colour')) {
+              if (val === 'black') isBlack = true;
+            }
+            if (name.includes('size')) {
+              if (val === 'medium' || val === 'm') isMedium = true;
+            }
+          });
+        } else {
+          // Fallback parsing from variant title
+          const vTitle = (item.variant_title || '').toLowerCase();
+          if (vTitle.includes('black')) isBlack = true;
+          if (vTitle.includes('medium') || vTitle.includes(' m ') || vTitle.endsWith(' m') || vTitle.match(/\bm\b/)) isMedium = true;
+        }
+
+        if (isBlack && isMedium) {
+          hasQualifyingItem = true;
+        }
+      });
+
+      let updates = {};
+      let needsUpdate = false;
+
+      if (hasQualifyingItem) {
+        if (giftItems.length === 0) {
+          // Gift is missing entirely, add exactly 1
+          await fetch('/cart/add.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({ 
+              items: [{ 
+                id: JACKET_VARIANT_ID, 
+                quantity: 1, 
+                properties: { '_promo_bundle': 'Soft Winter Jacket Gift' } 
+              }] 
+            })
+          });
+          needsUpdate = true;
+        } else {
+          // We have 1 or more gift line items. Enforce exactly 1 total.
+          giftItems.forEach((gItem, index) => {
+            if (index === 0) {
+              if (gItem.quantity !== 1) {
+                updates[gItem.key] = 1;
+                needsUpdate = true;
+              }
+            } else {
+              // Remove duplicate gift line items
+              updates[gItem.key] = 0;
+              needsUpdate = true;
+            }
+          });
+        }
+      } else {
+        if (giftItems.length > 0) {
+          // No qualifying item, remove ALL gift items
+          giftItems.forEach((gItem) => {
+            updates[gItem.key] = 0;
+            needsUpdate = true;
+          });
+        }
+      }
+
+      if (Object.keys(updates).length > 0) {
+        await fetch('/cart/update.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ updates })
+        });
+        needsUpdate = true;
+      }
+
+      if (needsUpdate) {
+        const newCartRes = await fetch('/cart.js');
+        const newCartData = await newCartRes.json();
+        
+        // Dispatch events so Dawn drawer/page can re-render
+        document.dispatchEvent(new CustomEvent('tisso:cart:updated', { detail: { cart: newCartData } }));
+        if (window.publish && window.PUB_SUB_EVENTS) {
+          window.publish(window.PUB_SUB_EVENTS.cartUpdate, { source: 'tisso-sync', cartData: newCartData });
+        }
+      }
+
+    } catch (e) {
+      console.error('Tisso Cart Sync Error:', e);
+    } finally {
+      isSyncingBundle = false;
+    }
+  }
+
+  function initCartSync() {
+    // Run on page load
+    syncTissoBundleCart();
+    
+    // Listen to our custom modal event
+    document.addEventListener('tisso:cart:updated', (e) => {
+      // Avoid reacting to our own sync event via isSyncingBundle lock
+      syncTissoBundleCart();
+    });
+
+    // Hook into Dawn's global cart update subscriber
+    if (window.subscribe && window.PUB_SUB_EVENTS) {
+      window.subscribe(window.PUB_SUB_EVENTS.cartUpdate, (event) => {
+        if (event && event.source === 'tisso-sync') return;
+        syncTissoBundleCart();
+      });
+    }
   }
 
 })();
