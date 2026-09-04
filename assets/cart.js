@@ -166,7 +166,7 @@ class CartItems extends window.StandardEvents.createViewEventElement(HTMLElement
     ];
   }
 
-  updateQuantity(line, quantity, event, name, variantId) {
+  async updateQuantity(line, quantity, event, name, variantId) {
     const eventTarget = event.currentTarget instanceof CartRemoveButton ? 'clear' : 'change';
     const cartPerformanceUpdateMarker = CartPerformance.createStartingMarker(`${eventTarget}:user-action`);
 
@@ -181,14 +181,71 @@ class CartItems extends window.StandardEvents.createViewEventElement(HTMLElement
     // Cache sections before the fetch so we read dataset.id while elements still exist in the DOM
     const sectionsToRender = this.getSectionsToRender();
 
-    const body = JSON.stringify({
+    let bodyObj = {
       line,
       quantity,
       sections: sectionsToRender.map((section) => section.section),
       sections_url: window.location.pathname,
-    });
+    };
+    let endpoint = routes.cart_change_url;
 
-    fetch(`${routes.cart_change_url}`, { ...fetchConfig(), ...{ body } })
+    // --- TISSO BUNDLE INJECTION: Evaluate if cart still qualifies for the gift ---
+    try {
+      const currentCart = await CartItems.fetchCartData();
+      if (currentCart && currentCart.items) {
+        const itemBeingChanged = currentCart.items[line - 1];
+        let hasQualifyingItem = false;
+        let giftKeys = [];
+
+        currentCart.items.forEach((item, index) => {
+          if (item.properties && item.properties._promo_bundle) {
+            giftKeys.push(item.key);
+            return;
+          }
+          const itemQty = (index === line - 1) ? quantity : item.quantity;
+          if (itemQty > 0) {
+            // Check variant options
+            let isBlack = false;
+            let isMedium = false;
+            
+            if (item.variant_options) {
+              item.variant_options.forEach(val => {
+                if (typeof val === 'string' && val.toLowerCase() === 'black') isBlack = true;
+                if (typeof val === 'string' && (val.toLowerCase() === 'medium' || val.toLowerCase() === 'm')) isMedium = true;
+              });
+            } else {
+              const title = (item.variant_title || '').toLowerCase();
+              if (title.includes('black')) isBlack = true;
+              if (title.includes('medium') || title.match(/\bm\b/)) isMedium = true;
+            }
+
+            if (isBlack && isMedium) hasQualifyingItem = true;
+          }
+        });
+
+        // If no qualifying item remains but gifts are in cart, we must remove them too.
+        if (!hasQualifyingItem && giftKeys.length > 0 && itemBeingChanged) {
+          endpoint = routes.cart_update_url;
+          bodyObj = {
+            updates: {
+              [itemBeingChanged.key]: quantity // Apply the user's intended change
+            },
+            sections: sectionsToRender.map((section) => section.section),
+            sections_url: window.location.pathname,
+          };
+          giftKeys.forEach(key => {
+            bodyObj.updates[key] = 0; // Remove gifts
+          });
+        }
+      }
+    } catch (err) {
+      console.warn("Bundle evaluation failed", err);
+    }
+    // -----------------------------------------------------------------------------
+
+    const body = JSON.stringify(bodyObj);
+
+    fetch(`${endpoint}`, { ...fetchConfig(), ...{ body } })
       .then((response) => {
         return response.text();
       })
