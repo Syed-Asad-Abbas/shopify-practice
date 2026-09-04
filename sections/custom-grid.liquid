@@ -115,6 +115,46 @@
     align-items: center;
     justify-content: center;
   }
+  /* --- MOBILE RESPONSIVE QUERIES --- */
+  @media (max-width: 768px) {
+    .tisso-grid-section-{{ section.id }} {
+      padding: 40px 0 60px 0;
+    }
+
+    .tisso-grid-section-{{ section.id }} .tisso-grid-container {
+      display: flex;
+      flex-direction: column;
+      width: 342px;
+      max-width: 100%;
+      margin: 0 auto;
+      gap: 20px;
+    }
+
+    .tisso-grid-section-{{ section.id }} .tisso-grid-heading {
+      font-family: 'Lustria';
+      font-weight: 400;
+      font-style: normal;
+      font-size: 24px;
+      line-height: 120%;
+      letter-spacing: 0px;
+      color: #000000;
+      width: 100%;
+      height: auto;
+      text-align: center;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    .tisso-grid-section-{{ section.id }} .tisso-product-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .tisso-grid-section-{{ section.id }} .tisso-card {
+      aspect-ratio: 4 / 5;
+    }
+  }
 {%- endstyle -%}
 
 <section class="tisso-grid-section-{{ section.id }}" id="products-grid" aria-label="Product Showcase">

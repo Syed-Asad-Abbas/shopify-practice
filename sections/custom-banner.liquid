@@ -21,6 +21,8 @@
   else
     assign right_img_url = '2nd-image.png' | asset_url
   endif
+
+  assign right_img_mobile_url = 'tisso-banner-right-mobile.png' | asset_url
 -%}
 
 {%- style -%}
@@ -263,6 +265,14 @@
     letter-spacing: 0px;
   }
 
+  .tisso-banner-section-{{ section.id }} .mobile-only {
+    display: none !important;
+  }
+
+  .tisso-banner-section-{{ section.id }} .tisso-mobile-dropdown {
+    display: none !important;
+  }
+
   /* CTA Button - scaleX left-to-right sliding wipe animation */
   .tisso-banner-section-{{ section.id }} .tisso-hero-cta-btn {
     position: relative;
@@ -385,6 +395,11 @@
     opacity: 1;
   }
 
+  /* Mobile hero image: hidden by default on desktop */
+  .tisso-banner-section-{{ section.id }} .tisso-hero-right-img--mobile {
+    display: none;
+  }
+
   /* 4. SUB-BANNER ANNOUNCEMENT BAR */
   .tisso-banner-section-{{ section.id }} .tisso-sub-banner {
     width: 100%;
@@ -417,16 +432,361 @@
     align-items: center;
     justify-content: center;
   }
+  /* --- MOBILE RESPONSIVE QUERIES --- */
+  @media (max-width: 768px) {
+    .tisso-banner-section-{{ section.id }} .tisso-top-bar {
+      flex-direction: column;
+      height: auto;
+      padding: 0;
+      border-bottom: none;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-top-bar-main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 65px;
+      background-color: #F7F7F7;
+      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
+      gap: 0;
+      padding: 23px 16px;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-hamburger-menu {
+      display: flex !important;
+      cursor: pointer;
+      flex-shrink: 0;
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 5;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-hamburger-menu .tisso-icon-close {
+      display: none;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-hamburger-menu.is-active .tisso-icon-hamburger {
+      display: none;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-hamburger-menu.is-active .tisso-icon-close {
+      display: block;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-brand-logo {
+      margin: 0;
+      flex-shrink: 0;
+      width: 151.44px;
+      height: 19px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      text-decoration: none;
+    }
+
+    /* Mobile Hamburger Dropdown Panel */
+    .tisso-banner-section-{{ section.id }} .tisso-mobile-dropdown {
+      display: none !important;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      background-color: #FFFFFF;
+      border-top: 1px solid #E5E5E5;
+      padding: 24px 16px;
+      box-sizing: border-box;
+      gap: 20px;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-mobile-dropdown.is-open {
+      display: flex !important;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-mobile-dropdown-text {
+      width: 260px;
+      height: 14px;
+      font-family: 'Jost';
+      font-weight: 400;
+      font-style: normal;
+      font-size: 16px;
+      line-height: 13.42px;
+      letter-spacing: 0px;
+      text-align: center;
+      color: #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-mobile-dropdown-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 244px;
+      height: 44px;
+      background-color: #FFF03F;
+      border: none;
+      cursor: default;
+      text-decoration: none;
+      position: relative;
+      box-sizing: border-box;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-mobile-dropdown-btn-text {
+      font-family: 'Jost';
+      font-weight: 400;
+      font-style: normal;
+      font-size: 16px;
+      line-height: 20.48px;
+      letter-spacing: 0px;
+      text-align: center;
+      text-transform: uppercase;
+      color: #000000;
+      width: 102px;
+      height: 21px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 11.67px;
+      left: 57.9px;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-mobile-dropdown-btn-line {
+      width: 28.29px;
+      height: 0px;
+      border-top: 1.5px solid #000000;
+      position: absolute;
+      top: 21.55px;
+      left: 189.78px;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-mobile-dropdown-btn-line::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: -4.5px;
+      width: 8px;
+      height: 8px;
+      border-top: 1.5px solid #000000;
+      border-right: 1.5px solid #000000;
+      transform: rotate(45deg);
+      box-sizing: border-box;
+    }
+
+    /* Hide the top announcement bar (yellow/grey block) on mobile to match design */
+    .tisso-banner-section-{{ section.id }} .tisso-top-center,
+    .tisso-banner-section-{{ section.id }} .tisso-top-right {
+      display: none !important;
+    }
+
+    /* Hero Section */
+    .tisso-banner-section-{{ section.id }} .tisso-hero-top-container {
+      display: none; /* Hide top illustration on mobile */
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-hero-bottom-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      margin-top: 0;
+      padding-bottom: 20px; /* Space at the bottom */
+    }
+
+    /* Use display: contents so children act as flex items of the bottom container */
+    .tisso-banner-section-{{ section.id }} .tisso-hero-content-col {
+      display: contents;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-hero-heading {
+      order: 1;
+      width: 197px;
+      height: 30px;
+      margin-top: 49px; /* Matches top: 49px */
+      margin-bottom: 0;
+
+      /* Typography */
+      font-family: 'Jost' !important;
+      font-weight: 500;
+      font-style: normal;
+      font-size: 30px;
+      line-height: 100%;
+      letter-spacing: 0px;
+      text-align: center;
+      color: #000000;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .tisso-banner-section-{{ section.id }} .desktop-only {
+      display: none !important;
+    }
+
+    .tisso-banner-section-{{ section.id }} .mobile-only {
+      display: flex !important;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-hero-description.mobile-only {
+      order: 2;
+      width: 340px;
+      height: 42px;
+      margin-top: 24px; /* matches top: 103px */
+      margin-bottom: 0;
+
+      font-family: 'Jost' !important;
+      font-weight: 400;
+      font-style: normal;
+      font-size: 16px;
+      line-height: 130%;
+      letter-spacing: 0px;
+      text-align: center;
+      color: #000000;
+
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-hero-right-col {
+      order: 3;
+      width: 100%;
+      flex: none;
+      height: auto;
+    }
+
+    /* Swap desktop image for mobile image */
+    .tisso-banner-section-{{ section.id }} .tisso-hero-right-img--desktop {
+      display: none;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-hero-right-img--mobile {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-hero-cta-btn {
+      order: 4;
+      position: absolute;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      margin: 0;
+      z-index: 10;
+      pointer-events: none;
+      background-color: #000000;
+      color: #FFFFFF;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-hero-cta-btn:hover {
+      color: #FFFFFF;
+      box-shadow: none;
+      transform: translateX(-50%);
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-hero-cta-btn:hover::before {
+      transform: scaleX(0);
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-hero-cta-btn:hover .tisso-hero-btn-line {
+      transform: none;
+      background-color: #FFFFFF !important;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-hero-cta-btn:hover .tisso-hero-btn-line::after {
+      border-top-color: #FFFFFF !important;
+      border-right-color: #FFFFFF !important;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-sub-banner {
+      width: 100%;
+      max-width: 100%;
+      height: 34px;
+      padding: 10px 50px;
+      gap: 375px;
+      background-color: #F5F5F5;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-sub-banner-text {
+      width: 288px;
+      height: 14px;
+      font-family: 'Jost';
+      font-weight: 400;
+      font-style: normal;
+      font-size: 13px;
+      line-height: 13.42px;
+      letter-spacing: 0px;
+      text-align: center;
+      color: #000000;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-sub-banner-text--desktop {
+      display: none !important;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-sub-banner-text--mobile {
+      display: inline-flex !important;
+    }
+  }
 {%- endstyle -%}
 
 <div class="tisso-banner-section-{{ section.id }}" data-section-id="{{ section.id }}">
   <div class="tisso-banner-wrapper">
     <!-- 1. Top Bar / Announcement Navigation -->
     <header class="tisso-top-bar" aria-label="Store Announcement & Brand Bar">
-      <div class="tisso-top-left">
-        <a href="{{ section.settings.brand_link | default: routes.root_url }}" class="tisso-brand-logo">
-          {{ section.settings.brand_text | default: 'TISSO VISON' }}
-        </a>
+      <div class="tisso-top-bar-main">
+        <div class="tisso-hamburger-menu" style="display:none;" aria-label="Menu" role="button" tabindex="0">
+          <svg class="tisso-icon-hamburger" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 12h18M3 6h18M3 18h18" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <svg class="tisso-icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="tisso-top-left">
+          <a
+            href="{{ section.settings.brand_link | default: routes.root_url }}"
+            class="tisso-brand-logo"
+            aria-label="{{ section.settings.brand_text | default: 'TISSO VISON' }}"
+          >
+            <svg width="151.44" height="19" viewBox="116 25 151.44 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M252.276 25L264.337 37.0609V25.7246L264.7 25.3617H267.081L267.444 25.7246V43.9975H266.874L255.02 32.144V43.6358L254.657 43.9975H252.276L251.914 43.6358V25.3617L252.276 25Z" fill="black"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M196.021 25L200.732 36.3635L205.443 25H208.807L201.094 43.6371L200.732 44L200.369 43.6371L192.656 25H196.021Z" fill="black"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M223.866 25C225.678 25 227.396 25.9469 228.343 27.3295L226.532 29.1417H225.962C225.586 28.3393 224.761 27.848 223.866 27.848C222.8 27.848 221.801 28.7244 221.742 29.8404C221.699 30.6799 222.084 31.2045 222.779 31.6527C223.527 32.1353 223.833 32.3366 224.849 32.8945C225.957 33.5032 228.758 34.6969 228.758 37.8387C228.758 40.936 226.169 43.8173 222.83 43.8173C222.401 43.8173 221.625 43.7692 221.045 43.6358C219.409 43.2396 218.417 42.6211 217.344 41.3582L219.673 38.9769L220.476 39.6497C220.837 39.9336 221.632 40.5052 222.389 40.6076C223.927 40.8163 224.959 39.799 225.159 38.7954C225.319 38.0029 225.117 36.8202 223.84 36.2079C223.84 36.2079 221.536 34.9278 220.526 34.3438C219.498 33.7488 218.404 32.1242 218.404 30.1774C218.404 28.7282 219.068 27.3245 220.139 26.3468C220.966 25.5889 222.1 25 223.866 25Z" fill="black"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M214.278 25V43.2741L213.915 43.6358H211.172V25.3629L211.534 25H214.278Z" fill="black"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M240.244 25C242.715 25 245.085 25.9817 246.832 27.7292C248.58 29.4766 249.562 31.8466 249.562 34.3179C249.562 36.7892 248.58 39.1592 246.832 40.9067C245.085 42.6541 242.715 43.6358 240.244 43.6358C237.772 43.6358 235.402 42.6541 233.655 40.9067C231.907 39.1592 230.926 36.7892 230.926 34.3179C230.926 31.8466 231.907 29.4766 233.655 27.7292C235.402 25.9817 237.772 25 240.244 25ZM240.242 28.1072C239.427 28.1073 238.619 28.2681 237.865 28.5803C237.111 28.8926 236.427 29.3503 235.85 29.9273C234.685 31.0925 234.03 32.6727 234.031 34.3204C234.031 35.9681 234.685 37.5482 235.851 38.7131C237.016 39.8781 238.596 40.5325 240.244 40.5323C241.891 40.5323 243.472 39.8778 244.637 38.7127C245.802 37.5476 246.456 35.9674 246.456 34.3198C246.456 32.6721 245.802 31.0919 244.637 29.9268C243.472 28.7617 241.891 28.1072 240.244 28.1072H240.242Z" fill="black"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M141.037 25C142.85 25 144.568 25.9469 145.515 27.3295L143.704 29.1417H143.134C142.758 28.3393 141.932 27.848 141.037 27.848C139.972 27.848 138.973 28.7244 138.914 29.8404C138.871 30.6799 139.256 31.2045 139.951 31.6527C140.699 32.1353 141.005 32.3366 142.021 32.8945C143.129 33.5032 145.93 34.6969 145.93 37.8387C145.93 40.936 143.341 43.8173 140.002 43.8173C139.573 43.8173 138.797 43.7692 138.217 43.6358C136.581 43.2396 135.588 42.6211 134.516 41.3582L136.845 38.9769L137.648 39.6497C138.009 39.9336 138.804 40.5052 139.561 40.6076C141.099 40.8163 142.131 39.799 142.331 38.7954C142.49 38.0029 142.289 36.8202 141.012 36.2079C141.012 36.2079 138.708 34.9278 137.698 34.3438C136.67 33.7488 135.576 32.1242 135.576 30.1774C135.576 28.7282 136.24 27.3245 137.311 26.3468C138.138 25.5889 139.272 25 141.037 25Z" fill="black"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M154.619 25C156.432 25 158.15 25.9469 159.097 27.3295L157.286 29.1417H156.716C156.34 28.3393 155.514 27.848 154.619 27.848C153.554 27.848 152.555 28.7244 152.496 29.8404C152.453 30.6799 152.838 31.2045 153.533 31.6527C154.281 32.1353 154.587 32.3366 155.603 32.8945C156.711 33.5032 159.512 34.6969 159.512 37.8387C159.512 40.936 156.923 43.8173 153.584 43.8173C153.155 43.8173 152.379 43.7692 151.799 43.6358C150.163 43.2396 149.17 42.6211 148.098 41.3582L150.427 38.9769L151.23 39.6497C151.591 39.9336 152.386 40.5052 153.143 40.6076C154.681 40.8163 155.713 39.799 155.913 38.7954C156.072 38.0029 155.871 36.8202 154.594 36.2079C154.594 36.2079 152.29 34.9278 151.28 34.3438C150.252 33.7488 149.158 32.1242 149.158 30.1774C149.158 28.7282 149.822 27.3245 150.893 26.3468C151.72 25.5889 152.854 25 154.619 25Z" fill="black"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M131.45 25V43.2741L131.087 43.6358H128.344V25.3629L128.705 25H131.45Z" fill="black"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M170.994 25C173.465 25 175.835 25.9817 177.582 27.7292C179.33 29.4766 180.312 31.8466 180.312 34.3179C180.312 36.7892 179.33 39.1592 177.582 40.9067C175.835 42.6541 173.465 43.6358 170.994 43.6358C168.522 43.6358 166.152 42.6541 164.405 40.9067C162.657 39.1592 161.676 36.7892 161.676 34.3179C161.676 31.8466 162.657 29.4766 164.405 27.7292C166.152 25.9817 168.522 25 170.994 25ZM170.992 28.1072C170.177 28.1073 169.369 28.2681 168.615 28.5803C167.861 28.8926 167.177 29.3503 166.6 29.9273C165.435 31.0925 164.78 32.6727 164.781 34.3204C164.781 35.9681 165.435 37.5482 166.601 38.7131C167.766 39.8781 169.346 40.5325 170.994 40.5323C172.641 40.5323 174.222 39.8778 175.387 38.7127C176.552 37.5476 177.206 35.9674 177.206 34.3198C177.206 32.6721 176.552 31.0919 175.387 29.9268C174.222 28.7617 172.641 28.1072 170.994 28.1072H170.992Z" fill="black"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M125.318 25V27.7443L124.955 28.106H122.212V43.6358H119.106V28.106H116V25.3629L116.363 25H125.318Z" fill="black"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Mobile Hamburger Dropdown Panel (hidden by default, shown on mobile when hamburger is clicked) -->
+      <div class="tisso-mobile-dropdown">
+        <p class="tisso-mobile-dropdown-text">
+          {{ section.settings.top_announcement | default: 'Find the ideal gift for your loved ones.' }}
+        </p>
+        <div class="tisso-mobile-dropdown-btn">
+          <span class="tisso-mobile-dropdown-btn-text">{{ section.settings.top_btn_text | default: 'CHOOSE GIFT' }}</span>
+          <span class="tisso-mobile-dropdown-btn-line" aria-hidden="true"></span>
+        </div>
       </div>
 
       <div class="tisso-top-center">
@@ -463,12 +823,13 @@
           {{ section.settings.heading | default: 'The Gift Guide' }}
         </h1>
 
-        <div class="tisso-hero-description">
+        <div class="tisso-hero-description desktop-only">
           {{
             section.settings.description
             | default: 'Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.'
           }}
         </div>
+        <div class="tisso-hero-description mobile-only">Discover Joy: Your Ultimate Holiday Gift Destination.</div>
 
         <a href="{{ section.settings.cta_link | default: '#products-grid' }}" class="tisso-hero-cta-btn">
           <span class="tisso-cta-text">{{ section.settings.cta_text | default: 'SHOP NOW' }}</span>
@@ -481,10 +842,16 @@
         <img
           src="{{ right_img_url }}"
           alt="Tisso Vison Line Illustration Bottom Right"
-          class="tisso-hero-right-img"
+          class="tisso-hero-right-img tisso-hero-right-img--desktop"
           loading="eager"
           width="890"
           height="402"
+        >
+        <img
+          src="{{ right_img_mobile_url }}"
+          alt="Tisso Hero Mobile"
+          class="tisso-hero-right-img tisso-hero-right-img--mobile"
+          loading="eager"
         >
       </div>
     </section>
@@ -492,11 +859,29 @@
 
   <!-- 4. Bottom Sub-Banner Bar -->
   <div class="tisso-sub-banner">
-    <p class="tisso-sub-banner-text">
+    <p class="tisso-sub-banner-text tisso-sub-banner-text--desktop">
       {{ section.settings.sub_banner_text | default: 'SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL' }}
+    </p>
+    <p class="tisso-sub-banner-text tisso-sub-banner-text--mobile" style="display:none;">
+      SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR
     </p>
   </div>
 </div>
+
+<script>
+  (function() {
+    const section = document.querySelector('.tisso-banner-section-{{ section.id }}');
+    if (!section) return;
+    const hamburger = section.querySelector('.tisso-hamburger-menu');
+    const dropdown = section.querySelector('.tisso-mobile-dropdown');
+    if (!hamburger || !dropdown) return;
+
+    hamburger.addEventListener('click', function() {
+      const isOpen = hamburger.classList.toggle('is-active');
+      dropdown.classList.toggle('is-open', isOpen);
+    });
+  })();
+</script>
 
 {% schema %}
 {
