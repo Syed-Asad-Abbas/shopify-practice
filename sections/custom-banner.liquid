@@ -22,7 +22,11 @@
     assign right_img_url = '2nd-image.png' | asset_url
   endif
 
-  assign right_img_mobile_url = 'tisso-banner-right-mobile.png' | asset_url
+  if section.settings.mobile_bottom_right_image != blank
+    assign right_img_mobile_url = section.settings.mobile_bottom_right_image | image_url: width: 2000
+  else
+    assign right_img_mobile_url = 'tisso-banner-right-mobile.png' | asset_url
+  endif
 -%}
 
 {%- style -%}
@@ -532,10 +536,26 @@
       height: 44px;
       background-color: #FFF03F;
       border: none;
-      cursor: default;
+      cursor: pointer;
       text-decoration: none;
       position: relative;
       box-sizing: border-box;
+      overflow: hidden;
+      transition: color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-mobile-dropdown-btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000000;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 0;
     }
 
     .tisso-banner-section-{{ section.id }} .tisso-mobile-dropdown-btn-text {
@@ -556,6 +576,8 @@
       position: absolute;
       top: 11.67px;
       left: 57.9px;
+      z-index: 1;
+      transition: color 0.3s ease, transform 0.3s ease;
     }
 
     .tisso-banner-section-{{ section.id }} .tisso-mobile-dropdown-btn-line {
@@ -565,6 +587,8 @@
       position: absolute;
       top: 21.55px;
       left: 189.78px;
+      z-index: 10;
+      transition: transform 0.3s ease, border-color 0.3s ease;
     }
 
     .tisso-banner-section-{{ section.id }} .tisso-mobile-dropdown-btn-line::after {
@@ -578,6 +602,31 @@
       border-right: 1.5px solid #000000;
       transform: rotate(45deg);
       box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-mobile-dropdown-btn:hover {
+      color: #FFFFFF;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-mobile-dropdown-btn:hover .tisso-mobile-dropdown-btn-text {
+      color: #FFFFFF;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-mobile-dropdown-btn:hover::before {
+      transform: scaleX(1);
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-mobile-dropdown-btn:hover .tisso-mobile-dropdown-btn-line {
+      transform: translateX(4px);
+      border-top-color: #FFFFFF !important;
+    }
+
+    .tisso-banner-section-{{ section.id }} .tisso-mobile-dropdown-btn:hover .tisso-mobile-dropdown-btn-line::after {
+      border-top-color: #FFFFFF !important;
+      border-right-color: #FFFFFF !important;
     }
 
     /* Hide the top announcement bar (yellow/grey block) on mobile to match design */
@@ -783,10 +832,10 @@
         <p class="tisso-mobile-dropdown-text">
           {{ section.settings.top_announcement | default: 'Find the ideal gift for your loved ones.' }}
         </p>
-        <div class="tisso-mobile-dropdown-btn">
+        <a href="{{ section.settings.top_btn_link | default: '#products-grid' }}" class="tisso-mobile-dropdown-btn">
           <span class="tisso-mobile-dropdown-btn-text">{{ section.settings.top_btn_text | default: 'CHOOSE GIFT' }}</span>
           <span class="tisso-mobile-dropdown-btn-line" aria-hidden="true"></span>
-        </div>
+        </a>
       </div>
 
       <div class="tisso-top-center">
@@ -829,7 +878,9 @@
             | default: 'Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.'
           }}
         </div>
-        <div class="tisso-hero-description mobile-only">Discover Joy: Your Ultimate Holiday Gift Destination.</div>
+        <div class="tisso-hero-description mobile-only">
+          {{ section.settings.mobile_description | default: 'Discover Joy: Your Ultimate Holiday Gift Destination.' }}
+        </div>
 
         <a href="{{ section.settings.cta_link | default: '#products-grid' }}" class="tisso-hero-cta-btn">
           <span class="tisso-cta-text">{{ section.settings.cta_text | default: 'SHOP NOW' }}</span>
@@ -863,7 +914,7 @@
       {{ section.settings.sub_banner_text | default: 'SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL' }}
     </p>
     <p class="tisso-sub-banner-text tisso-sub-banner-text--mobile" style="display:none;">
-      SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR
+      {{ section.settings.mobile_sub_banner_text | default: 'SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR' }}
     </p>
   </div>
 </div>
@@ -936,6 +987,11 @@
       "label": "Bottom Right Container Image (2nd image.png - 890x402)"
     },
     {
+      "type": "image_picker",
+      "id": "mobile_bottom_right_image",
+      "label": "Mobile Bottom Right Image"
+    },
+    {
       "type": "header",
       "content": "Hero Banner Content"
     },
@@ -950,6 +1006,12 @@
       "id": "description",
       "label": "Banner Description (Red Rectangle)",
       "default": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season."
+    },
+    {
+      "type": "textarea",
+      "id": "mobile_description",
+      "label": "Mobile Banner Description",
+      "default": "Discover Joy: Your Ultimate Holiday Gift Destination."
     },
     {
       "type": "text",
@@ -971,6 +1033,12 @@
       "id": "sub_banner_text",
       "label": "Sub-Banner Text (Red Rectangle)",
       "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+    },
+    {
+      "type": "text",
+      "id": "mobile_sub_banner_text",
+      "label": "Mobile Sub-Banner Text",
+      "default": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR"
     },
     {
       "type": "color",
