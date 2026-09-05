@@ -17,11 +17,16 @@
         "top_announcement": "Find the ideal gift for your loved ones.",
         "top_btn_text": "CHOOSE GIFT",
         "top_btn_link": "#products-grid",
+        "mobile_announcement": "Get stated with your \"Mi Solo\" kit",
+        "mobile_btn_text": "",
+        "mobile_btn_link": "",
         "heading": "The Gift Guide",
         "description": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.",
+        "mobile_description": "Discover Joy: Your Ultimate Holiday Gift Destination.",
         "cta_text": "SHOP NOW",
         "cta_link": "#products-grid",
         "sub_banner_text": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
+        "mobile_sub_banner_text": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR",
         "sub_banner_bg": "#f4f4f4",
         "sub_banner_text_color": "#000000",
         "banner_bg_color": "#ffffff",
@@ -91,7 +96,16 @@
       "settings": {
         "heading": "Tisso vison in the wild",
         "bg_color": "#ffffff",
-        "text_color": "#000000"
+        "text_color": "#000000",
+        "modal_bg_color": "#ffffff",
+        "modal_text_color": "#111111",
+        "modal_color_label": "Color",
+        "modal_size_label": "Size",
+        "modal_size_placeholder": "Choose your size",
+        "modal_add_to_cart_text": "ADD TO CART",
+        "modal_btn_bg": "#000000",
+        "modal_btn_text_color": "#ffffff",
+        "modal_btn_hover_bg": "#fff03f"
       }
     }
   },
