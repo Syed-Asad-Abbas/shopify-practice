@@ -343,7 +343,8 @@
 
     // Default placeholder or first size
     selectedOptionValues.Size = '';
-    sizeTriggerText.textContent = 'Choose your size';
+    const customPlaceholder = sizeWrapper ? sizeWrapper.dataset.placeholder : 'Choose your size';
+    sizeTriggerText.textContent = customPlaceholder || 'Choose your size';
 
     sizeValues.forEach(sizeName => {
       const li = document.createElement('li');
