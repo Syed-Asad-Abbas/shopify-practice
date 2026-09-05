@@ -830,10 +830,10 @@
       <!-- Mobile Hamburger Dropdown Panel (hidden by default, shown on mobile when hamburger is clicked) -->
       <div class="tisso-mobile-dropdown">
         <p class="tisso-mobile-dropdown-text">
-          {{ section.settings.top_announcement | default: 'Find the ideal gift for your loved ones.' }}
+          {{ section.settings.mobile_announcement | default: section.settings.top_announcement | default: 'Find the ideal gift for your loved ones.' }}
         </p>
-        <a href="{{ section.settings.top_btn_link | default: '#products-grid' }}" class="tisso-mobile-dropdown-btn">
-          <span class="tisso-mobile-dropdown-btn-text">{{ section.settings.top_btn_text | default: 'CHOOSE GIFT' }}</span>
+        <a href="{{ section.settings.mobile_btn_link | default: section.settings.top_btn_link | default: '#products-grid' }}" class="tisso-mobile-dropdown-btn">
+          <span class="tisso-mobile-dropdown-btn-text">{{ section.settings.mobile_btn_text | default: section.settings.top_btn_text | default: 'CHOOSE GIFT' }}</span>
           <span class="tisso-mobile-dropdown-btn-line" aria-hidden="true"></span>
         </a>
       </div>
@@ -971,6 +971,27 @@
       "type": "url",
       "id": "top_btn_link",
       "label": "Top Action Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Mobile Hamburger Dropdown"
+    },
+    {
+      "type": "text",
+      "id": "mobile_announcement",
+      "label": "Mobile Announcement Text",
+      "info": "Leave blank to use the desktop announcement text."
+    },
+    {
+      "type": "text",
+      "id": "mobile_btn_text",
+      "label": "Mobile Button Text",
+      "info": "Leave blank to use the desktop button text."
+    },
+    {
+      "type": "url",
+      "id": "mobile_btn_link",
+      "label": "Mobile Button Link"
     },
     {
       "type": "header",

@@ -302,6 +302,7 @@
     line-height: 1;
     letter-spacing: -0.02em;
     vertical-align: middle;
+    text-align: center;
     margin: 0;
     padding: 0;
   }
@@ -368,7 +369,7 @@
     left: 20px;
     background-color: var(--modal-text-color, #000000);
     color: #ffffff;
-    border: 1px solid #000000;
+    border: none;
     font-size: 13.5px;
     font-weight: 600;
     letter-spacing: 1.5px;
@@ -435,7 +436,7 @@
     border-top: 1.5px solid #FFFFFF;
     display: inline-block;
     position: relative;
-    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease;
   }
 
   .tisso-modal-add-to-cart-btn .tisso-modal-btn-arrow::after {
@@ -448,10 +449,17 @@
     border-top: 1.5px solid #FFFFFF;
     border-right: 1.5px solid #FFFFFF;
     transform: rotate(45deg);
+    transition: border-color 0.3s ease;
   }
 
   .tisso-modal-add-to-cart-btn:hover:not(:disabled) .tisso-modal-btn-arrow {
     transform: translateX(6px);
+    border-top-color: #000000;
+  }
+
+  .tisso-modal-add-to-cart-btn:hover:not(:disabled) .tisso-modal-btn-arrow::after {
+    border-top-color: #000000;
+    border-right-color: #000000;
   }
 
   .tisso-modal-add-to-cart-btn:disabled {
