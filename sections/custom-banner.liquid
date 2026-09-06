@@ -30,6 +30,20 @@
 -%}
 
 {%- style -%}
+  {%- assign desk_font = section.settings.desk_btn_font_family -%}
+  {%- assign mob_font = section.settings.mob_btn_font_family -%}
+  {%- assign cta_font = section.settings.cta_btn_font_family -%}
+  {%- assign sub_font = section.settings.sub_banner_font_family -%}
+  {%- assign heading_font = section.settings.heading_font_family -%}
+  {%- assign desc_font = section.settings.desc_font_family -%}
+  
+  {%- if desk_font -%}{{ desk_font | font_face: font_display: 'swap' }}{%- endif -%}
+  {%- if mob_font -%}{{ mob_font | font_face: font_display: 'swap' }}{%- endif -%}
+  {%- if cta_font -%}{{ cta_font | font_face: font_display: 'swap' }}{%- endif -%}
+  {%- if sub_font -%}{{ sub_font | font_face: font_display: 'swap' }}{%- endif -%}
+  {%- if heading_font -%}{{ heading_font | font_face: font_display: 'swap' }}{%- endif -%}
+  {%- if desc_font -%}{{ desc_font | font_face: font_display: 'swap' }}{%- endif -%}
+
   @import url('https://fonts.googleapis.com/css2?family=Jost:wght@200;300;350;375;400;500;600;700&display=swap');
 
   /* --- CUSTOM BANNER SCOPED STYLING --- */
@@ -39,7 +53,79 @@
     --accent-yellow: #FFF03F;
     --border-color: #E5E5E5;
     --font-heading: 'Playfair Display', Georgia, serif;
-    --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-body: 'Jost', sans-serif;
+
+    /* Hero Typography Variables */
+    --hero-heading-font: {% if heading_font %}{{ heading_font.family }}, {{ heading_font.fallback_families }}{% else %}'Playfair Display', Georgia, serif{% endif %};
+    --hero-heading-size: {{ section.settings.heading_font_size | default: 71 }}px;
+    --hero-heading-weight: {{ section.settings.heading_font_weight | default: '400' }};
+    --hero-heading-color: {{ section.settings.heading_color | default: '#000000' }};
+
+    --hero-desc-font: {% if desc_font %}{{ desc_font.family }}, {{ desc_font.fallback_families }}{% else %}'Jost', sans-serif{% endif %};
+    --hero-desc-size: {{ section.settings.desc_font_size | default: 14 }}px;
+    --hero-desc-weight: {{ section.settings.desc_font_weight | default: '400' }};
+    --hero-desc-color: {{ section.settings.desc_color | default: '#000000' }};
+
+    /* Sub-Banner Variables */
+    --sub-bg-color: {{ section.settings.sub_banner_bg | default: '#F5F5F5' }};
+    --sub-text-color: {{ section.settings.sub_banner_text_color | default: '#000000' }};
+    --sub-font-family: {% if sub_font %}{{ sub_font.family }}, {{ sub_font.fallback_families }}{% else %}'Jost', sans-serif{% endif %};
+    --sub-font-size: {{ section.settings.sub_banner_font_size | default: 16 }}px;
+    --sub-font-weight: {{ section.settings.sub_banner_font_weight | default: '400' }};
+    --sub-alignment: {{ section.settings.sub_banner_alignment | default: 'center' }};
+    --sub-height: {{ section.settings.sub_banner_height | default: 34 }}px;
+
+    /* Desktop Top Action Button Variables */
+    --desk-btn-width: {{ section.settings.desk_btn_width | default: 208 }}px;
+    --desk-btn-height: {{ section.settings.desk_btn_height | default: 44 }}px;
+    --desk-btn-bg: {{ section.settings.desk_btn_bg | default: '#FFF03F' }};
+    --desk-btn-text-color: {{ section.settings.desk_btn_text_color | default: '#000000' }};
+    --desk-btn-font-family: {{ desk_font.family }}, {{ desk_font.fallback_families }};
+    --desk-btn-font-size: {{ section.settings.desk_btn_font_size | default: 16 }}px;
+    --desk-btn-font-weight: {{ section.settings.desk_btn_font_weight | default: '400' }};
+    --desk-btn-padding-top: {{ section.settings.desk_btn_padding_top | default: 0 }}px;
+    --desk-btn-padding-right: {{ section.settings.desk_btn_padding_right | default: 0 }}px;
+    --desk-btn-padding-bottom: {{ section.settings.desk_btn_padding_bottom | default: 0 }}px;
+    --desk-btn-padding-left: {{ section.settings.desk_btn_padding_left | default: 41 }}px;
+    --desk-btn-border-width: {{ section.settings.desk_btn_border_width | default: 0 }}px;
+    --desk-btn-border-color: {{ section.settings.desk_btn_border_color | default: '#000000' }};
+    --desk-btn-hover-bg: {{ section.settings.desk_btn_hover_bg | default: '#000000' }};
+    --desk-btn-hover-text: {{ section.settings.desk_btn_hover_text_color | default: '#FFFFFF' }};
+
+    /* Mobile Dropdown Button Variables */
+    --mob-btn-width: {{ section.settings.mob_btn_width | default: 244 }}px;
+    --mob-btn-height: {{ section.settings.mob_btn_height | default: 44 }}px;
+    --mob-btn-bg: {{ section.settings.mob_btn_bg | default: '#FFF03F' }};
+    --mob-btn-text-color: {{ section.settings.mob_btn_text_color | default: '#000000' }};
+    --mob-btn-font-family: {{ mob_font.family }}, {{ mob_font.fallback_families }};
+    --mob-btn-font-size: {{ section.settings.mob_btn_font_size | default: 14 }}px;
+    --mob-btn-font-weight: {{ section.settings.mob_btn_font_weight | default: '400' }};
+    --mob-btn-padding-top: {{ section.settings.mob_btn_padding_top | default: 0 }}px;
+    --mob-btn-padding-right: {{ section.settings.mob_btn_padding_right | default: 0 }}px;
+    --mob-btn-padding-bottom: {{ section.settings.mob_btn_padding_bottom | default: 0 }}px;
+    --mob-btn-padding-left: {{ section.settings.mob_btn_padding_left | default: 0 }}px;
+    --mob-btn-border-width: {{ section.settings.mob_btn_border_width | default: 0 }}px;
+    --mob-btn-border-color: {{ section.settings.mob_btn_border_color | default: '#000000' }};
+    --mob-btn-hover-bg: {{ section.settings.mob_btn_hover_bg | default: '#000000' }};
+    --mob-btn-hover-text: {{ section.settings.mob_btn_hover_text_color | default: '#FFFFFF' }};
+
+    /* Hero CTA Button Variables */
+    --cta-btn-width: {{ section.settings.cta_btn_width | default: 220 }}px;
+    --cta-btn-height: {{ section.settings.cta_btn_height | default: 50 }}px;
+    --cta-btn-bg: {{ section.settings.cta_btn_bg | default: '#000000' }};
+    --cta-btn-text-color: {{ section.settings.cta_btn_text_color | default: '#FFFFFF' }};
+    --cta-btn-font-family: {{ cta_font.family }}, {{ cta_font.fallback_families }};
+    --cta-btn-font-size: {{ section.settings.cta_btn_font_size | default: 16 }}px;
+    --cta-btn-font-weight: {{ section.settings.cta_btn_font_weight | default: '400' }};
+    --cta-btn-padding-top: {{ section.settings.cta_btn_padding_top | default: 0 }}px;
+    --cta-btn-padding-right: {{ section.settings.cta_btn_padding_right | default: 0 }}px;
+    --cta-btn-padding-bottom: {{ section.settings.cta_btn_padding_bottom | default: 0 }}px;
+    --cta-btn-padding-left: {{ section.settings.cta_btn_padding_left | default: 0 }}px;
+    --cta-btn-border-width: {{ section.settings.cta_btn_border_width | default: 0 }}px;
+    --cta-btn-border-color: {{ section.settings.cta_btn_border_color | default: '#000000' }};
+    --cta-btn-hover-bg: {{ section.settings.cta_btn_hover_bg | default: '#FFF03F' }};
+    --cta-btn-hover-text: {{ section.settings.cta_btn_hover_text_color | default: '#000000' }};
+
     font-family: var(--font-body);
     width: 100%;
     background-color: var(--banner-bg-color);
@@ -102,20 +188,20 @@
     display: inline-flex;
     align-items: center;
     justify-content: flex-start;
-    width: 207px;
-    height: 44px;
-    padding-left: 41px;
+    width: var(--desk-btn-width);
+    height: var(--desk-btn-height);
+    padding: var(--desk-btn-padding-top) var(--desk-btn-padding-right) var(--desk-btn-padding-bottom) var(--desk-btn-padding-left);
     box-sizing: border-box;
-    background-color: var(--accent-yellow);
-    color: #000000;
-    font-family: 'Jost';
-    font-weight: 400;
-    font-size: 16px;
+    background-color: var(--desk-btn-bg);
+    color: var(--desk-btn-text-color);
+    font-family: var(--desk-btn-font-family);
+    font-weight: var(--desk-btn-font-weight);
+    font-size: var(--desk-btn-font-size);
     line-height: 20.48px;
     letter-spacing: 0px;
     text-transform: uppercase;
     text-decoration: none;
-    border: none;
+    border: var(--desk-btn-border-width) solid var(--desk-btn-border-color);
     overflow: hidden;
     transition: color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
   }
@@ -138,7 +224,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #000000;
+    background-color: var(--desk-btn-hover-bg);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
@@ -176,7 +262,7 @@
   }
 
   .tisso-banner-section-{{ section.id }} .tisso-top-action-btn:hover {
-    color: #FFFFFF;
+    color: var(--desk-btn-hover-text);
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
@@ -187,12 +273,12 @@
 
   .tisso-banner-section-{{ section.id }} .tisso-top-action-btn:hover .tisso-btn-line {
     transform: translateX(4px);
-    background-color: #FFFFFF !important;
+    background-color: var(--desk-btn-hover-text) !important;
   }
 
   .tisso-banner-section-{{ section.id }} .tisso-top-action-btn:hover .tisso-btn-line::after {
-    border-top-color: #FFFFFF !important;
-    border-right-color: #FFFFFF !important;
+    border-top-color: var(--desk-btn-hover-text) !important;
+    border-right-color: var(--desk-btn-hover-text) !important;
   }
 
   /* 2. CONTAINER 1: TOP ILLUSTRATION CONTAINER (1440 x 390 - 1st image.png) */
@@ -242,11 +328,11 @@
   }
 
   .tisso-banner-section-{{ section.id }} .tisso-hero-heading {
-    font-family: 'Jost';
-    font-weight: 500;
-    font-size: 70px;
+    font-family: var(--hero-heading-font);
+    font-weight: var(--hero-heading-weight);
+    font-size: var(--hero-heading-size);
+    color: var(--hero-heading-color);
     line-height: 1;
-    color: #000000;
     margin: 0;
     letter-spacing: 0px;
     width: 459px;
@@ -256,11 +342,11 @@
   }
 
   .tisso-banner-section-{{ section.id }} .tisso-hero-description {
-    font-family: 'Jost';
-    font-size: 20px;
-    font-weight: 375;
+    font-family: var(--hero-desc-font);
+    font-size: var(--hero-desc-size);
+    font-weight: var(--hero-desc-weight);
+    color: var(--hero-desc-color);
     line-height: 1.4;
-    color: #000000;
     margin: 50px 0 0 0;
     width: 483px;
     height: 84px;
@@ -281,23 +367,23 @@
   .tisso-banner-section-{{ section.id }} .tisso-hero-cta-btn {
     position: relative;
     display: inline-flex;
-    background-color: #000000;
-    color: #FFFFFF;
-    width: 220px;
-    height: 50px;
-    padding: 0;
+    background-color: var(--cta-btn-bg);
+    color: var(--cta-btn-text-color);
+    width: var(--cta-btn-width);
+    height: var(--cta-btn-height);
+    padding: var(--cta-btn-padding-top) var(--cta-btn-padding-right) var(--cta-btn-padding-bottom) var(--cta-btn-padding-left);
     margin-top: 50px;
     text-decoration: none;
-    border: none;
+    border: var(--cta-btn-border-width) solid var(--cta-btn-border-color);
     box-sizing: border-box;
     overflow: hidden;
     transition: color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
   }
 
   .tisso-banner-section-{{ section.id }} .tisso-hero-cta-btn .tisso-cta-text {
-    font-family: 'Jost';
-    font-weight: 400;
-    font-size: 16px;
+    font-family: var(--cta-btn-font-family);
+    font-weight: var(--cta-btn-font-weight);
+    font-size: var(--cta-btn-font-size);
     line-height: 20.48px;
     text-transform: uppercase;
     text-align: center;
@@ -319,7 +405,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--accent-yellow);
+    background-color: var(--cta-btn-hover-bg);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
@@ -333,7 +419,7 @@
   }
 
   .tisso-banner-section-{{ section.id }} .tisso-hero-cta-btn:hover {
-    color: #000000;
+    color: var(--cta-btn-hover-text);
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
     transform: translateY(-2px);
   }
@@ -408,10 +494,10 @@
   .tisso-banner-section-{{ section.id }} .tisso-sub-banner {
     width: 100%;
     max-width: 1440px;
-    height: 34px;
+    height: var(--sub-height);
     margin: 0 auto;
-    background-color: {{ section.settings.sub_banner_bg | default: '#F5F5F5' }};
-    color: {{ section.settings.sub_banner_text_color | default: '#000000' }};
+    background-color: var(--sub-bg-color);
+    color: var(--sub-text-color);
     padding: 10px 50px;
     display: flex;
     align-items: center;
@@ -422,19 +508,24 @@
   }
 
   .tisso-banner-section-{{ section.id }} .tisso-sub-banner-text {
-    font-family: 'Jost';
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 13.42px;
+    font-family: var(--sub-font-family);
+    font-weight: var(--sub-font-weight);
+    font-size: var(--sub-font-size);
+    line-height: 1.4;
     letter-spacing: 0px;
-    text-align: center;
-    color: #000000;
-    width: 500px;
-    height: 14px;
+    text-align: var(--sub-alignment);
+    color: var(--sub-text-color);
+    width: 100%;
     margin: 0;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
+    {% if section.settings.sub_banner_alignment == 'flex-start' %}
+      justify-content: flex-start;
+    {% elsif section.settings.sub_banner_alignment == 'flex-end' %}
+      justify-content: flex-end;
+    {% else %}
+      justify-content: center;
+    {% endif %}
   }
   /* --- MOBILE RESPONSIVE QUERIES --- */
   @media (max-width: 768px) {
@@ -532,10 +623,10 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 244px;
-      height: 44px;
-      background-color: #FFF03F;
-      border: none;
+      width: var(--mob-btn-width);
+      height: var(--mob-btn-height);
+      background-color: var(--mob-btn-bg);
+      border: var(--mob-btn-border-width) solid var(--mob-btn-border-color);
       cursor: pointer;
       text-decoration: none;
       position: relative;
@@ -551,7 +642,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: #000000;
+      background-color: var(--mob-btn-hover-bg);
       transform: scaleX(0);
       transform-origin: left;
       transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
@@ -559,15 +650,14 @@
     }
 
     .tisso-banner-section-{{ section.id }} .tisso-mobile-dropdown-btn-text {
-      font-family: 'Jost';
-      font-weight: 400;
-      font-style: normal;
-      font-size: 14px;
+      font-family: var(--mob-btn-font-family);
+      font-weight: var(--mob-btn-font-weight);
+      font-size: var(--mob-btn-font-size);
       line-height: 20.48px;
       letter-spacing: 0px;
       text-align: center;
       text-transform: uppercase;
-      color: #000000;
+      color: var(--mob-btn-text-color);
       width: 102px;
       height: 21px;
       display: flex;
@@ -606,13 +696,13 @@
     }
 
     .tisso-banner-section-{{ section.id }} .tisso-mobile-dropdown-btn:hover {
-      color: #FFFFFF;
+      color: var(--mob-btn-hover-text);
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 
     .tisso-banner-section-{{ section.id }} .tisso-mobile-dropdown-btn:hover .tisso-mobile-dropdown-btn-text {
-      color: #FFFFFF;
+      color: var(--mob-btn-hover-text);
     }
 
     .tisso-banner-section-{{ section.id }} .tisso-mobile-dropdown-btn:hover::before {
@@ -621,12 +711,12 @@
 
     .tisso-banner-section-{{ section.id }} .tisso-mobile-dropdown-btn:hover .tisso-mobile-dropdown-btn-line {
       transform: translateX(4px);
-      border-top-color: #FFFFFF !important;
+      border-top-color: var(--mob-btn-hover-text) !important;
     }
 
     .tisso-banner-section-{{ section.id }} .tisso-mobile-dropdown-btn:hover .tisso-mobile-dropdown-btn-line::after {
-      border-top-color: #FFFFFF !important;
-      border-right-color: #FFFFFF !important;
+      border-top-color: var(--mob-btn-hover-text) !important;
+      border-right-color: var(--mob-btn-hover-text) !important;
     }
 
     /* Hide the top announcement bar (yellow/grey block) on mobile to match design */
@@ -760,26 +850,30 @@
     .tisso-banner-section-{{ section.id }} .tisso-sub-banner {
       width: 100%;
       max-width: 100%;
-      height: 34px;
+      height: {{ section.settings.mobile_sub_banner_height | default: 35 }}px;
       padding: 10px 50px;
       gap: 375px;
-      background-color: #F5F5F5;
+      background-color: var(--sub-bg-color);
     }
 
     .tisso-banner-section-{{ section.id }} .tisso-sub-banner-text {
-      width: 288px;
-      height: 14px;
-      font-family: 'Jost';
-      font-weight: 400;
-      font-style: normal;
-      font-size: 13px;
-      line-height: 13.42px;
+      width: 100%;
+      font-family: var(--sub-font-family);
+      font-weight: var(--sub-font-weight);
+      font-size: {{ section.settings.mobile_sub_banner_font_size | default: 13 }}px;
+      line-height: 1.4;
       letter-spacing: 0px;
-      text-align: center;
-      color: #000000;
+      text-align: var(--sub-alignment);
+      color: var(--sub-text-color);
       display: inline-flex;
       align-items: center;
-      justify-content: center;
+      {% if section.settings.sub_banner_alignment == 'flex-start' %}
+        justify-content: flex-start;
+      {% elsif section.settings.sub_banner_alignment == 'flex-end' %}
+        justify-content: flex-end;
+      {% else %}
+        justify-content: center;
+      {% endif %}
     }
 
     .tisso-banner-section-{{ section.id }} .tisso-sub-banner-text--desktop {
@@ -1023,6 +1117,41 @@
       "default": "The Gift Guide"
     },
     {
+      "type": "font_picker",
+      "id": "heading_font_family",
+      "label": "Heading Font Family",
+      "default": "jost_n4"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 71
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Heading Font Weight",
+      "default": "400",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-Bold (600)" },
+        { "value": "700", "label": "Bold (700)" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
       "type": "textarea",
       "id": "description",
       "label": "Banner Description (Red Rectangle)",
@@ -1033,6 +1162,41 @@
       "id": "mobile_description",
       "label": "Mobile Banner Description",
       "default": "Discover Joy: Your Ultimate Holiday Gift Destination."
+    },
+    {
+      "type": "font_picker",
+      "id": "desc_font_family",
+      "label": "Description Font Family",
+      "default": "jost_n4"
+    },
+    {
+      "type": "range",
+      "id": "desc_font_size",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Description Font Size",
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "desc_font_weight",
+      "label": "Description Font Weight",
+      "default": "300",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-Bold (600)" },
+        { "value": "700", "label": "Bold (700)" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "desc_color",
+      "label": "Description Color",
+      "default": "#000000"
     },
     {
       "type": "text",
@@ -1074,6 +1238,76 @@
       "default": "#000000"
     },
     {
+      "type": "font_picker",
+      "id": "sub_banner_font_family",
+      "label": "Font Family",
+      "default": "jost_n4"
+    },
+    {
+      "type": "range",
+      "id": "sub_banner_font_size",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop Font Size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "mobile_sub_banner_font_size",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Font Size",
+      "default": 13
+    },
+    {
+      "type": "select",
+      "id": "sub_banner_font_weight",
+      "label": "Font Weight",
+      "default": "400",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-Bold (600)" },
+        { "value": "700", "label": "Bold (700)" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "sub_banner_alignment",
+      "label": "Text Alignment",
+      "default": "center",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "sub_banner_height",
+      "min": 20,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop Section Height",
+      "default": 35
+    },
+    {
+      "type": "range",
+      "id": "mobile_sub_banner_height",
+      "min": 20,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Section Height",
+      "default": 35
+    },
+    {
       "type": "color",
       "id": "banner_bg_color",
       "label": "Banner Background Color",
@@ -1083,6 +1317,405 @@
       "type": "color",
       "id": "banner_text_color",
       "label": "Banner Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Desktop Top Action Button (CHOOSE GIFT)"
+    },
+    {
+      "type": "range",
+      "id": "desk_btn_width",
+      "min": 100,
+      "max": 400,
+      "step": 3,
+      "unit": "px",
+      "label": "Width",
+      "default": 208
+    },
+    {
+      "type": "range",
+      "id": "desk_btn_height",
+      "min": 30,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Height",
+      "default": 44
+    },
+    {
+      "type": "color",
+      "id": "desk_btn_bg",
+      "label": "Background Color",
+      "default": "#FFF03F"
+    },
+    {
+      "type": "color",
+      "id": "desk_btn_text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "desk_btn_font_size",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "desk_btn_font_weight",
+      "label": "Font Weight",
+      "default": "400",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-Bold (600)" },
+        { "value": "700", "label": "Bold (700)" }
+      ]
+    },
+    {
+      "type": "font_picker",
+      "id": "desk_btn_font_family",
+      "label": "Font Family",
+      "default": "jost_n4"
+    },
+    {
+      "type": "range",
+      "id": "desk_btn_padding_top",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "desk_btn_padding_right",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Right",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "desk_btn_padding_bottom",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "desk_btn_padding_left",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Left",
+      "default": 41
+    },
+    {
+      "type": "range",
+      "id": "desk_btn_border_width",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "label": "Border Width",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "desk_btn_border_color",
+      "label": "Border Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "desk_btn_hover_bg",
+      "label": "Hover Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "desk_btn_hover_text_color",
+      "label": "Hover Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Mobile Dropdown Button (CHOOSE GIFT)"
+    },
+    {
+      "type": "range",
+      "id": "mob_btn_width",
+      "min": 100,
+      "max": 400,
+      "step": 3,
+      "unit": "px",
+      "label": "Width",
+      "default": 244
+    },
+    {
+      "type": "range",
+      "id": "mob_btn_height",
+      "min": 30,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Height",
+      "default": 44
+    },
+    {
+      "type": "color",
+      "id": "mob_btn_bg",
+      "label": "Background Color",
+      "default": "#FFF03F"
+    },
+    {
+      "type": "color",
+      "id": "mob_btn_text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "mob_btn_font_size",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "mob_btn_font_weight",
+      "label": "Font Weight",
+      "default": "400",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-Bold (600)" },
+        { "value": "700", "label": "Bold (700)" }
+      ]
+    },
+    {
+      "type": "font_picker",
+      "id": "mob_btn_font_family",
+      "label": "Font Family",
+      "default": "jost_n4"
+    },
+    {
+      "type": "range",
+      "id": "mob_btn_padding_top",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mob_btn_padding_right",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Right",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mob_btn_padding_bottom",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mob_btn_padding_left",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Left",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mob_btn_border_width",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "label": "Border Width",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "mob_btn_border_color",
+      "label": "Border Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "mob_btn_hover_bg",
+      "label": "Hover Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "mob_btn_hover_text_color",
+      "label": "Hover Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Hero CTA Button (SHOP NOW)"
+    },
+    {
+      "type": "range",
+      "id": "cta_btn_width",
+      "min": 100,
+      "max": 400,
+      "step": 3,
+      "unit": "px",
+      "label": "Width",
+      "default": 220
+    },
+    {
+      "type": "range",
+      "id": "cta_btn_height",
+      "min": 30,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Height",
+      "default": 50
+    },
+    {
+      "type": "color",
+      "id": "cta_btn_bg",
+      "label": "Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "cta_btn_text_color",
+      "label": "Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "cta_btn_font_size",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "cta_btn_font_weight",
+      "label": "Font Weight",
+      "default": "400",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-Bold (600)" },
+        { "value": "700", "label": "Bold (700)" }
+      ]
+    },
+    {
+      "type": "font_picker",
+      "id": "cta_btn_font_family",
+      "label": "Font Family",
+      "default": "jost_n4"
+    },
+    {
+      "type": "range",
+      "id": "cta_btn_padding_top",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "cta_btn_padding_right",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Right",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "cta_btn_padding_bottom",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "cta_btn_padding_left",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Left",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "cta_btn_border_width",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "label": "Border Width",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "cta_btn_border_color",
+      "label": "Border Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "cta_btn_hover_bg",
+      "label": "Hover Background Color",
+      "default": "#FFF03F"
+    },
+    {
+      "type": "color",
+      "id": "cta_btn_hover_text_color",
+      "label": "Hover Text Color",
       "default": "#000000"
     }
   ],

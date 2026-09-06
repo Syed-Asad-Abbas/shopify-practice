@@ -8,6 +8,9 @@
 {% endcomment %}
 
 <style>
+  {%- assign modal_font = section.settings.modal_btn_font_family -%}
+  {{ modal_font | font_face: font_display: 'swap' }}
+
   /* --- CUSTOM MODAL BACKDROP & CONTAINER --- */
   .tisso-modal-backdrop {
     --modal-bg-color: {{ section.settings.modal_bg_color | default: '#ffffff' }};
@@ -15,7 +18,18 @@
     --modal-btn-bg: {{ section.settings.modal_btn_bg | default: '#000000' }};
     --modal-btn-text-color: {{ section.settings.modal_btn_text_color | default: '#ffffff' }};
     --modal-btn-hover-bg: {{ section.settings.modal_btn_hover_bg | default: '#fff03f' }};
-    
+    --modal-btn-hover-text: {{ section.settings.modal_btn_hover_text_color | default: '#000000' }};
+    --modal-btn-width: {{ section.settings.modal_btn_width | default: 271 }}px;
+    --modal-btn-height: {{ section.settings.modal_btn_height | default: 45 }}px;
+    --modal-btn-font-family: {{ modal_font.family }}, {{ modal_font.fallback_families }};
+    --modal-btn-font-size: {{ section.settings.modal_btn_font_size | default: 16 }}px;
+    --modal-btn-font-weight: {{ section.settings.modal_btn_font_weight | default: '400' }};
+    --modal-btn-padding-top: {{ section.settings.modal_btn_padding_top | default: 0 }}px;
+    --modal-btn-padding-right: {{ section.settings.modal_btn_padding_right | default: 0 }}px;
+    --modal-btn-padding-bottom: {{ section.settings.modal_btn_padding_bottom | default: 0 }}px;
+    --modal-btn-padding-left: {{ section.settings.modal_btn_padding_left | default: 0 }}px;
+    --modal-btn-border-width: {{ section.settings.modal_btn_border_width | default: 0 }}px;
+    --modal-btn-border-color: {{ section.settings.modal_btn_border_color | default: '#000000' }};
     position: fixed;
     top: 0;
     left: 0;
@@ -49,7 +63,7 @@
     box-shadow: 0px 2px 4px 0px #00000033;
     transform: translateY(20px) scale(0.97);
     transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Jost', sans-serif;
     color: var(--modal-text-color, #111111);
   }
 
@@ -117,7 +131,7 @@
     position: absolute;
     top: 49px;
     left: 145px;
-    font-family: Jost;
+    font-family: var(--modal-btn-font-family);
     font-weight: 300;
     font-style: normal;
     font-size: 16px;
@@ -153,7 +167,7 @@
     position: absolute;
     top: 119px;
     left: 145px;
-    font-family: Jost;
+    font-family: var(--modal-btn-font-family);
     font-weight: 300;
     font-style: normal;
     font-size: 14px;
@@ -185,7 +199,7 @@
   .tisso-option-label {
     width: 33px;
     height: 18px;
-    font-family: Jost;
+    font-family: var(--modal-btn-font-family);
     font-weight: 400;
     font-style: normal;
     font-size: 14px;
@@ -255,7 +269,7 @@
     width: 112px;
     height: 18px;
     position: absolute;
-    font-family: Jost;
+    font-family: var(--modal-btn-font-family);
     font-weight: 400;
     font-style: normal;
     font-size: 18px;
@@ -295,7 +309,7 @@
   #TissoSizeTriggerText {
     width: 185px;
     height: 20px;
-    font-family: Jost;
+    font-family: var(--modal-btn-font-family);
     font-weight: 400;
     font-style: normal;
     font-size: 16px;
@@ -363,15 +377,15 @@
   /* ADD TO CART Action Button - scaleX wipe animation */
   .tisso-modal-add-to-cart-btn {
     position: absolute;
-    width: 271px;
-    height: 45px;
+    width: var(--modal-btn-width);
+    height: var(--modal-btn-height);
     top: 377px;
     left: 20px;
-    background-color: var(--modal-text-color, #000000);
-    color: #ffffff;
-    border: none;
-    font-size: 13.5px;
-    font-weight: 600;
+    background-color: var(--modal-btn-bg, #000000);
+    color: var(--modal-btn-text-color, #ffffff);
+    border: var(--modal-btn-border-width) solid var(--modal-btn-border-color);
+    font-size: var(--modal-btn-font-size);
+    font-weight: var(--modal-btn-font-weight);
     letter-spacing: 1.5px;
     text-transform: uppercase;
     display: flex;
@@ -381,6 +395,7 @@
     cursor: pointer;
     box-sizing: border-box;
     overflow: hidden;
+    padding: var(--modal-btn-padding-top) var(--modal-btn-padding-right) var(--modal-btn-padding-bottom) var(--modal-btn-padding-left);
     transition: color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
   }
 
@@ -408,10 +423,10 @@
   .tisso-modal-add-to-cart-btn .tisso-modal-btn-text {
     width: 106px;
     height: 21px;
-    font-family: Jost;
-    font-weight: 400;
+    font-family: var(--modal-btn-font-family);
+    font-weight: var(--modal-btn-font-weight);
     font-style: normal;
-    font-size: 16px;
+    font-size: var(--modal-btn-font-size);
     line-height: 20.48px;
     letter-spacing: 0px;
     text-align: center;
@@ -422,7 +437,7 @@
   }
 
   .tisso-modal-add-to-cart-btn:hover:not(:disabled) {
-    color: var(--modal-text-color, #000000);
+    color: var(--modal-btn-hover-text, #000000);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
   }
 
@@ -454,12 +469,12 @@
 
   .tisso-modal-add-to-cart-btn:hover:not(:disabled) .tisso-modal-btn-arrow {
     transform: translateX(6px);
-    border-top-color: #000000;
+    border-top-color: var(--modal-btn-hover-text, #000000);
   }
 
   .tisso-modal-add-to-cart-btn:hover:not(:disabled) .tisso-modal-btn-arrow::after {
-    border-top-color: #000000;
-    border-right-color: #000000;
+    border-top-color: var(--modal-btn-hover-text, #000000);
+    border-right-color: var(--modal-btn-hover-text, #000000);
   }
 
   .tisso-modal-add-to-cart-btn:disabled {
@@ -525,7 +540,7 @@
       position: absolute;
       top: 49px;
       left: 145px;
-      font-family: Jost;
+      font-family: var(--modal-btn-font-family);
       font-weight: 300;
       font-style: normal;
       font-size: 16px;
@@ -556,7 +571,7 @@
       position: absolute;
       top: 122px;
       left: 145px;
-      font-family: Jost;
+      font-family: var(--modal-btn-font-family);
       font-weight: 300;
       font-style: normal;
       font-size: 12px;
@@ -582,7 +597,7 @@
     .tisso-option-label {
       width: 33px;
       height: 18px;
-      font-family: Jost;
+      font-family: var(--modal-btn-font-family);
       font-weight: 400;
       font-style: normal;
       font-size: 14px;
@@ -602,8 +617,8 @@
     }
 
     .tisso-modal-add-to-cart-btn {
-      width: 271px;
-      height: 45px;
+      width: var(--modal-btn-width);
+      height: var(--modal-btn-height);
       opacity: 1;
       position: absolute;
       top: 377px;

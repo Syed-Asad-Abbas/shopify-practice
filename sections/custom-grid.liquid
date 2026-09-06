@@ -8,17 +8,27 @@
 {% endcomment %}
 
 {%- style -%}
+  {%- assign heading_font = section.settings.heading_font_family -%}
+  {%- if heading_font -%}{{ heading_font | font_face: font_display: 'swap' }}{%- endif -%}
   @import url('https://fonts.googleapis.com/css2?family=Lustria&display=swap');
 
   /* --- CUSTOM PRODUCT GRID SCOPED STYLING --- */
   .tisso-grid-section-{{ section.id }} {
     --grid-bg: {{ section.settings.bg_color | default: '#FFFFFF' }};
     --text-color: {{ section.settings.text_color | default: '#000000' }};
-    --hotspot-bg: #FFFFFF;
-    --hotspot-color: #000000;
-    --hotspot-hover-bg: #FFF03F;
+    --hotspot-bg: {{ section.settings.hotspot_bg | default: '#FFFFFF' }};
+    --hotspot-color: {{ section.settings.hotspot_color | default: '#000000' }};
+    --hotspot-hover-bg: {{ section.settings.hotspot_hover_bg | default: '#FFF03F' }};
     --font-heading: 'Playfair Display', Georgia, serif;
-    --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-body: 'Jost', sans-serif;
+
+    /* Heading Variables */
+    --grid-heading-font: {% if section.settings.heading_font_family %}{{ section.settings.heading_font_family.family }}, {{ section.settings.heading_font_family.fallback_families }}{% else %}'Lustria', serif{% endif %};
+    --grid-heading-size: {{ section.settings.heading_font_size | default: 40 }}px;
+    --grid-heading-weight: {{ section.settings.heading_font_weight | default: 'lighter' }};
+    --grid-heading-color: {{ section.settings.heading_text_color | default: '#000000' }};
+    --grid-heading-bg: {{ section.settings.heading_bg_color | default: 'transparent' }};
+    --grid-heading-align: {{ section.settings.heading_alignment | default: 'left' }};
 
     background-color: var(--grid-bg);
     color: var(--text-color);
@@ -34,24 +44,23 @@
 
   /* Section Title - Editorial Display Typography */
   .tisso-grid-section-{{ section.id }} .tisso-grid-heading {
-    font-family: 'Lustria';
-    font-weight: lighter;
-    font-size: 36px;
+    font-family: var(--grid-heading-font);
+    font-weight: var(--grid-heading-weight);
+    font-size: var(--grid-heading-size);
+    background-color: var(--grid-heading-bg);
+    color: var(--grid-heading-color);
+    text-align: var(--grid-heading-align);
     line-height: 1.2;
     letter-spacing: 0px;
-    color: #000000;
     margin: 0 0 32px 0;
-    width: 372px;
-    height: 43px;
-    display: flex;
-    align-items: center;
+    width: 100%;
   }
 
   /* 6-Block Desktop CSS Grid */
   .tisso-grid-section-{{ section.id }} .tisso-product-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat({{ section.settings.desktop_columns | default: 3 }}, 1fr);
+    gap: {{ section.settings.grid_gap | default: 20 }}px;
     width: 100%;
     margin: 0;
     padding: 0;
@@ -62,7 +71,15 @@
   .tisso-grid-section-{{ section.id }} .tisso-card {
     position: relative;
     width: 100%;
-    aspect-ratio: 1 / 1;
+    {% if section.settings.image_aspect_ratio == 'square' %}
+      aspect-ratio: 1 / 1;
+    {% elsif section.settings.image_aspect_ratio == 'portrait' %}
+      aspect-ratio: 4 / 5;
+    {% elsif section.settings.image_aspect_ratio == 'landscape' %}
+      aspect-ratio: 3 / 2;
+    {% else %}
+      height: 100%;
+    {% endif %}
     overflow: hidden;
     background-color: #F8F8F8;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
@@ -86,7 +103,16 @@
     object-fit: cover;
     object-position: center;
     display: block;
+    {% if section.settings.enable_hover_zoom %}
+      transition: transform 0.3s ease;
+    {% endif %}
   }
+
+  {% if section.settings.enable_hover_zoom %}
+    .tisso-grid-section-{{ section.id }} .tisso-card:hover .tisso-card-img {
+      transform: scale(1.05);
+    }
+  {% endif %}
 
   /* Hotspot UI Circle Indicator ('+' icon) */
   .tisso-grid-section-{{ section.id }} .tisso-hotspot-btn {
@@ -106,6 +132,10 @@
     transform: translate(-50%, -50%);
     z-index: 5;
     padding: 0;
+  }
+
+  .tisso-grid-section-{{ section.id }} .tisso-hotspot-btn:hover {
+    background-color: var(--hotspot-hover-bg);
   }
 
   .tisso-grid-section-{{ section.id }} .tisso-hotspot-icon {
@@ -140,19 +170,14 @@
       color: #000000;
       width: 100%;
       height: auto;
-      text-align: center;
-      justify-content: center;
+      text-align: var(--grid-heading-align);
       margin: 0;
       padding: 0;
     }
 
     .tisso-grid-section-{{ section.id }} .tisso-product-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat({{ section.settings.mobile_columns | default: 2 }}, 1fr);
       gap: 8px;
-    }
-
-    .tisso-grid-section-{{ section.id }} .tisso-card {
-      aspect-ratio: 4 / 5;
     }
   }
 {%- endstyle -%}
@@ -165,10 +190,11 @@
 
     <div class="tisso-product-grid" role="list">
       {%- comment -%}
-        Render 6 product blocks (or dynamic blocks configured via Theme Editor)
+        Render product blocks based on products_to_show setting
       {%- endcomment -%}
       {%- if section.blocks.size > 0 -%}
-        {%- for block in section.blocks limit: 6 -%}
+        {%- assign products_to_show = section.settings.products_to_show | default: 6 -%}
+        {%- for block in section.blocks limit: products_to_show -%}
           {%- liquid
             assign product = block.settings.product
             assign hotspot_x = block.settings.hotspot_x | default: 50
@@ -367,6 +393,140 @@
     },
     {
       "type": "color",
+      "id": "heading_bg_color",
+      "label": "Heading Background Color",
+      "default": "transparent"
+    },
+    {
+      "type": "color",
+      "id": "heading_text_color",
+      "label": "Heading Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "font_picker",
+      "id": "heading_font_family",
+      "label": "Heading Font Family",
+      "default": "jost_n4"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "min": 10,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 40
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Heading Font Weight",
+      "default": "400",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-Bold (600)" },
+        { "value": "700", "label": "Bold (700)" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading Text Alignment",
+      "default": "center",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Grid Content & Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "label": "Products to Show",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "desktop_columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Desktop Columns",
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "Mobile Columns",
+      "default": "2",
+      "options": [
+        { "value": "1", "label": "1 Column" },
+        { "value": "2", "label": "2 Columns" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Grid Gap (Spacing)",
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Image Aspect Ratio",
+      "default": "square",
+      "options": [
+        { "value": "square", "label": "Square (1:1)" },
+        { "value": "portrait", "label": "Portrait (4:5)" },
+        { "value": "landscape", "label": "Landscape (3:2)" },
+        { "value": "auto", "label": "Adapt to Image" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_hover_zoom",
+      "label": "Enable Image Zoom on Hover",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Hotspot Settings"
+    },
+    {
+      "type": "color",
+      "id": "hotspot_bg",
+      "label": "Hotspot Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "hotspot_color",
+      "label": "Hotspot Icon Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "hotspot_hover_bg",
+      "label": "Hotspot Hover Background",
+      "default": "#FFF03F"
+    },
+    {
+      "type": "color",
       "id": "bg_color",
       "label": "Background Color",
       "default": "#FFFFFF"
@@ -434,6 +594,117 @@
       "id": "modal_btn_hover_bg",
       "label": "Button Hover Background Color",
       "default": "#fff03f"
+    },
+    {
+      "type": "color",
+      "id": "modal_btn_hover_text_color",
+      "label": "Button Hover Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "modal_btn_width",
+      "min": 100,
+      "max": 400,
+      "step": 3,
+      "unit": "px",
+      "label": "Button Width",
+      "default": 271
+    },
+    {
+      "type": "range",
+      "id": "modal_btn_height",
+      "min": 30,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Height",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "modal_btn_font_size",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Font Size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "modal_btn_font_weight",
+      "label": "Button Font Weight",
+      "default": "400",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-Bold (600)" },
+        { "value": "700", "label": "Bold (700)" }
+      ]
+    },
+    {
+      "type": "font_picker",
+      "id": "modal_btn_font_family",
+      "label": "Button Font Family",
+      "default": "jost_n4"
+    },
+    {
+      "type": "range",
+      "id": "modal_btn_padding_top",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "modal_btn_padding_right",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Padding Right",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "modal_btn_padding_bottom",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "modal_btn_padding_left",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Padding Left",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "modal_btn_border_width",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Border Width",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "modal_btn_border_color",
+      "label": "Button Border Color",
+      "default": "#000000"
     }
   ],
   "blocks": [
